@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pashu Build Notes</title>
+<meta name="description" content="Pashu - build notes: Spring Boot, MySQL, Redis, React implementation approach.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{color-scheme:light dark}
+  *{box-sizing:border-box}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ink:#0D2226; --ink-2:#33484D; --muted:#65797D;
+  --line:#D8E2DF; --line-soft:#E7EDEB;
+  --paper:#E9EEEC; --sheet:#FFFFFF; --code:#F2F6F4;
+  --brand:#0E6E63; --brand-ink:#0A4F47; --brand-soft:#DDEDE9;
+  --marigold:#B7761A; --marigold-soft:#F7EBD6;
+  --alert:#B03327; --ok:#2A7048;
+  --shadow:0 1px 3px rgba(13,34,38,.07), 0 18px 44px rgba(13,34,38,.11);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E7EFEC; --ink-2:#B4C6C3; --muted:#8AA1A0;
+    --line:#22383B; --line-soft:#1A2C2F;
+    --paper:#070F11; --sheet:#0E2124; --code:#0A1A1C;
+    --brand:#4FB8A8; --brand-ink:#8AD5C8; --brand-soft:#123434;
+    --marigold:#E0A44C; --marigold-soft:#2E2415;
+    --alert:#E58375; --ok:#5FBA87;
+    --shadow:0 1px 3px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E7EFEC; --ink-2:#B4C6C3; --muted:#8AA1A0;
+  --line:#22383B; --line-soft:#1A2C2F;
+  --paper:#070F11; --sheet:#0E2124; --code:#0A1A1C;
+  --brand:#4FB8A8; --brand-ink:#8AD5C8; --brand-soft:#123434;
+  --marigold:#E0A44C; --marigold-soft:#2E2415;
+  --alert:#E58375; --ok:#5FBA87;
+  --shadow:0 1px 3px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--brand-ink)}
+
+.sheet{
+  max-width:820px;margin:26px auto 64px;background:var(--sheet);
+  border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);
+  padding:38px 42px 46px;
+}
+@media (max-width:680px){ .sheet{padding:26px 20px 34px;margin:14px 10px 40px} }
+
+.crumb{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px;margin-bottom:22px}
+.crumb a{
+  text-decoration:none;font-weight:600;border:1px solid var(--line);
+  border-radius:999px;padding:4px 11px;color:var(--ink-2);
+}
+.crumb a:hover{border-color:var(--brand);color:var(--brand-ink)}
+.crumb span{
+  border:1px solid var(--brand);background:var(--brand-soft);color:var(--brand-ink);
+  border-radius:999px;padding:4px 11px;font-weight:600;
+}
+
+.top{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.glyph{
+  width:34px;height:34px;border-radius:10px;background:var(--brand);color:#fff;
+  display:grid;place-items:center;flex:none;
+}
+.glyph svg{width:20px;height:20px;display:block}
+h1{
+  font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;font-weight:800;
+  font-size:29px;letter-spacing:-.024em;margin:0;line-height:1.05;text-wrap:balance;
+}
+.sub{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+
+.lede{
+  margin:22px 0 4px;padding:12px 0 12px 15px;border-left:3px solid var(--brand);
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:17px;
+  line-height:1.35;letter-spacing:-.014em;text-wrap:balance;color:var(--ink);
+}
+.lede em{font-style:normal;color:var(--muted)}
+
+.skills{display:flex;flex-wrap:wrap;gap:5px;margin:18px 0 4px}
+.skills b{
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);
+  width:100%;font-weight:600;margin-bottom:2px;
+}
+.skills i{
+  font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--ink-2);
+}
+
+h2{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:17px;font-weight:700;
+  letter-spacing:-.016em;margin:34px 0 3px;display:flex;align-items:baseline;gap:9px;
+  padding-bottom:6px;border-bottom:1px solid var(--line);
+}
+h2 .n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--brand);flex:none}
+h3{
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+  color:var(--muted);margin:20px 0 6px;
+}
+p{margin:0 0 9px;color:var(--ink-2)}
+strong{color:var(--ink);font-weight:600}
+ul{margin:0 0 10px;padding-left:17px}
+li{margin-bottom:5px;color:var(--ink-2)}
+li:last-child{margin-bottom:0}
+
+pre{
+  background:var(--code);border:1px solid var(--line-soft);border-radius:9px;
+  padding:12px 14px;overflow-x:auto;margin:4px 0 10px;
+}
+pre code{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;line-height:1.62;
+  color:var(--ink);white-space:pre;
+}
+code.inl{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;
+  background:var(--code);border:1px solid var(--line-soft);border-radius:5px;padding:1px 5px;
+}
+.cmt{color:var(--muted)}
+.kw{color:var(--brand-ink);font-weight:600}
+
+.callout{
+  border:1px solid var(--marigold);border-left:3px solid var(--marigold);
+  border-radius:0 9px 9px 0;background:var(--sheet);padding:11px 13px;margin:12px 0;
+}
+.callout .ct{
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;font-weight:700;
+  color:var(--marigold);display:block;margin-bottom:3px;
+}
+.callout p{margin:0;font-size:12.5px}
+.callout p + p{margin-top:6px}
+
+.tbl{overflow-x:auto;margin:6px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:460px}
+th,td{text-align:left;padding:7px 10px 7px 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  font-weight:600;border-bottom-color:var(--line);
+}
+td.w{white-space:nowrap;font-family:"IBM Plex Mono",monospace;color:var(--brand-ink);font-weight:600}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media (max-width:680px){ .two{grid-template-columns:1fr;gap:0} }
+
+.cut li::marker{color:var(--alert)}
+.keep li::marker{color:var(--ok)}
+
+.foot{
+  margin-top:36px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.55;
+}
+</style>
+
+<article class="sheet">
+  <nav class="crumb">
+    <a href="./index.html">&larr; Prototype</a>
+    <a href="./explanation.html">2-page write-up</a>
+    <span>Build notes</span>
+  </nav>
+
+  <header class="top">
+    <span class="glyph" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20.5c-3.3 0-5.6-2-5.6-4.3 0-2 1.9-3.4 5.6-3.4s5.6 1.4 5.6 3.4c0 2.3-2.3 4.3-5.6 4.3Z"/>
+        <ellipse cx="5.4" cy="9.4" rx="2" ry="2.6"/><ellipse cx="18.6" cy="9.4" rx="2" ry="2.6"/>
+        <ellipse cx="9.4" cy="5.4" rx="1.9" ry="2.5"/><ellipse cx="14.6" cy="5.4" rx="1.9" ry="2.5"/>
+      </svg>
+    </span>
+    <div>
+      <h1>Build notes</h1>
+      <p class="sub">Pashu &middot; how I would implement this, on the stack I work in</p>
+    </div>
+  </header>
+
+  <p class="lede">Four of the five features are CRUD. <em>One &mdash; reading a handwritten prescription &mdash; is the entire engineering story,</em> and the 30 days should be allocated accordingly.</p>
+
+  <div class="skills">
+    <b>Stack I am building this on</b>
+    <i>Java</i><i>Spring Boot 3</i><i>Spring Security</i><i>JWT</i><i>REST</i><i>MySQL 8</i><i>Redis</i><i>React</i><i>Flyway</i>
+  </div>
+
+  <h2><span class="n">01</span> Where the risk actually sits</h2>
+  <p>Search, profiles, reminders and the emergency screen are well-understood request/response work. The document pipeline is the only component with genuine unknowns: input quality is uncontrolled, the output is probabilistic, and the data it produces is medical. So it gets its own week, its own staging tables, and a human confirmation step before anything is trusted.</p>
+  <p>The corollary is a scoping decision rather than a technical one: <strong>anything that competes with that week gets cut.</strong></p>
+
+  <h2><span class="n">02</span> The document pipeline</h2>
+  <p>The AI is not a library I import. It is <strong>one outbound HTTP call, made off the request thread, whose output I never trust blindly.</strong> Framed that way it becomes ordinary Spring work.</p>
+<pre><code>POST /api/v1/pets/{petId}/documents          <span class="cmt">// multipart upload</span>
+  &rarr; validate type + size, write to S3
+  &rarr; INSERT document (status = QUEUED)
+  &rarr; 202 Accepted { documentId }           <span class="cmt">// request thread ends here</span>
+
+DocumentWorker                               <span class="cmt">// @Scheduled poll, or Redis Stream consumer</span>
+  &rarr; SELECT ... FOR UPDATE SKIP LOCKED     <span class="cmt">// MySQL 8; safe with N workers</span>
+  &rarr; call Claude API with image + JSON schema
+  &rarr; map &rarr; ExtractionResult, persist per-field confidence
+  &rarr; status = NEEDS_REVIEW
+
+GET  /api/v1/documents/{id}/extraction       <span class="cmt">// powers the confirm screen</span>
+POST /api/v1/documents/{id}/confirm          <span class="cmt">// promotes staging &rarr; medical_record</span>
+</code></pre>
+
+  <h3>Three decisions that matter more than the model</h3>
+  <ul>
+    <li><strong>Nothing AI-generated is written straight to the medical record.</strong> Extraction lands in a staging table; only the user&rsquo;s <code class="inl">/confirm</code> call promotes it, in one transaction. That single rule is what makes an AI feature safe in a health product &mdash; and it is just good transaction design.</li>
+    <li><strong>Confidence is stored per field, and so is the raw response.</strong> <code class="inl">extraction_field(document_id, field_key, value, confidence, bbox)</code>, plus the raw JSON in a <code class="inl">JSON</code> column. When extraction quality is the core asset, the ability to reprocess old documents is the asset.</li>
+    <li><strong>The dose cross-check is plain Java, not AI.</strong> Recompute mg/kg against the extracted body weight and flag any mismatch deterministically. Probabilistic extraction, deterministic validation on top &mdash; that is where I stop trusting the model.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="ct">Why the confirm step is a feature, not friction</span>
+    <p>An unclear digit in a body weight is a <strong>dosing error</strong>, not a typo. Surfacing low-confidence fields for confirmation is cheaper than any accuracy improvement, and it is the only design that stays defensible when extraction is wrong &mdash; which it sometimes will be.</p>
+  </div>
+
+  <h3>The verification agent</h3>
+  <p>A <code class="inl">@Scheduled</code> job selects providers whose <code class="inl">verified_at</code> is older than N days and sends a WhatsApp template message. A webhook controller receives the free-text reply, an AI call parses it into <code class="inl">{open, hours, species}</code>, and the listing updates. Freshness is <strong>computed</strong> from <code class="inl">verified_at</code>, never a stored score that can drift out of sync.</p>
+
+  <h2><span class="n">03</span> Data model</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Table</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="w">users</td><td>Phone-first. No email at signup &mdash; nobody has one ready on a footpath.</td></tr>
+        <tr><td class="w">providers</td><td><code class="inl">geo POINT NOT NULL SRID 4326</code> with a <code class="inl">SPATIAL INDEX</code>, plus <code class="inl">verified_at</code>, <code class="inl">status</code>, fee, ambulance flag.</td></tr>
+        <tr><td class="w">provider_species</td><td>Join table, not a bitmask. A rabbit vet is not a dog vet, and this drives the search.</td></tr>
+        <tr><td class="w">provider_hours</td><td>Per-weekday open/close rows, so &ldquo;open now&rdquo; is a query rather than a parsed string.</td></tr>
+        <tr><td class="w">pets</td><td>Species, breed, DOB, weight. Weight is versioned &mdash; dosing depends on it.</td></tr>
+        <tr><td class="w">documents</td><td>S3 key, status enum, raw AI response JSON.</td></tr>
+        <tr><td class="w">extraction_field</td><td>Staging. Value, confidence and bounding box per field.</td></tr>
+        <tr><td class="w">medical_record</td><td>The confirmed truth. Written only by <code class="inl">/confirm</code>.</td></tr>
+        <tr><td class="w">medication</td><td>Drug, dose, route, frequency, duration, computed end date.</td></tr>
+        <tr><td class="w">reminders</td><td>Derived rows with a due date and a delivery status.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Flyway migrations from the first commit. Packages split by domain &mdash; <code class="inl">provider</code>, <code class="inl">pet</code>, <code class="inl">record</code>, <code class="inl">document</code>, <code class="inl">emergency</code> &mdash; not by layer, so extracting a service later is a package move rather than a rewrite.</p>
+
+  <h2><span class="n">04</span> Auth, and why RBAC alone is not enough</h2>
+  <p>Phone OTP is the only realistic first factor in India. The OTP lives in <strong>Redis with a TTL</strong> and never touches MySQL. The access JWT is short-lived (~15 min); the refresh token sits in Redis so it can actually be revoked.</p>
+  <p>Roles: <code class="inl">PET_PARENT</code>, <code class="inl">VET</code>, <code class="inl">CLINIC_ADMIN</code>, <code class="inl">NGO</code>, <code class="inl">RESCUER</code>, <code class="inl">PLATFORM_ADMIN</code>. But role checks alone will not hold &mdash; a vet who claims a listing may edit <em>that clinic only</em>, and a pet&rsquo;s record belongs to exactly one owner. So authorization is resource-scoped:</p>
+<pre><code><span class="kw">@PreAuthorize</span>("hasRole('PET_PARENT') and @petGuard.owns(principal, #petId)")
+<span class="kw">public</span> PetRecordDto getRecord(<span class="kw">@PathVariable</span> Long petId) { ... }
+
+<span class="kw">@PreAuthorize</span>("hasRole('CLINIC_ADMIN') and @providerGuard.manages(principal, #providerId)")
+<span class="kw">public</span> void updateHours(<span class="kw">@PathVariable</span> Long providerId, <span class="kw">@RequestBody</span> HoursDto dto) { ... }
+</code></pre>
+  <p>&ldquo;RBAC&rdquo; is a bullet everyone writes. <strong>Ownership-scoped authorization on medical data</strong> is the version that shows the problem was actually thought about.</p>
+
+  <h2><span class="n">05</span> Geo-search on MySQL</h2>
+  <p>MySQL 8 spatial covers this without needing PostGIS. Two things trip people up, and both are worth knowing before writing the query.</p>
+  <div class="callout">
+    <span class="ct">Two gotchas</span>
+    <p><strong>Axis order.</strong> With <code class="inl">SRID 4326</code> MySQL follows the EPSG axis order, so it expects <code class="inl">POINT(latitude, longitude)</code> &mdash; not the lng/lat order most map APIs hand you.</p>
+    <p><strong>Index usage.</strong> <code class="inl">ST_Distance_Sphere</code> on its own will <em>not</em> use the spatial index. A bounding-box prefilter does the index work; the sphere distance then orders the small result set exactly.</p>
+  </div>
+<pre><code><span class="kw">SELECT</span> p.id, p.name,
+       ST_Distance_Sphere(p.geo, ST_SRID(POINT(:lat, :lng), 4326)) <span class="kw">AS</span> metres
+<span class="kw">FROM</span> providers p
+<span class="kw">JOIN</span> provider_species ps
+       <span class="kw">ON</span> ps.provider_id = p.id <span class="kw">AND</span> ps.species = :species
+<span class="kw">WHERE</span> MBRContains(:envelope, p.geo)        <span class="cmt">-- uses the SPATIAL INDEX</span>
+  <span class="kw">AND</span> p.status = 'ACTIVE'
+<span class="kw">HAVING</span> metres &lt;= :radiusMetres
+<span class="kw">ORDER BY</span> metres
+<span class="kw">LIMIT</span> 20;
+</code></pre>
+  <p>&ldquo;Open now&rdquo; joins <code class="inl">provider_hours</code> on the current weekday and time instead of interpreting a text field, which is what makes the filter trustworthy enough to show on every row.</p>
+
+  <h2><span class="n">06</span> What Redis is actually for</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Use</th><th>Why not MySQL</th></tr></thead>
+      <tbody>
+        <tr><td class="w">OTP store</td><td>Needs a TTL and high write churn; expiry should be the datastore&rsquo;s job.</td></tr>
+        <tr><td class="w">Refresh-token allowlist</td><td>Makes logout and revocation real instead of theoretical.</td></tr>
+        <tr><td class="w">Rate limiting</td><td>OTP requests and uploads are the two abusable endpoints.</td></tr>
+        <tr><td class="w">Search cache (~60s)</td><td>The <code class="inl">(lat, lng, species)</code> geo query is the hottest read in the app.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Four concrete uses beats writing &ldquo;Redis for caching&rdquo;, which says nothing about whether the cache was ever needed.</p>
+
+  <h2><span class="n">07</span> How the pieces connect</h2>
+  <p>A React PWA (Vite, installable &mdash; no app store, one build for both user types) talks to the Spring Boot REST API over JWT. The API owns MySQL 8 and Redis. Uploads go to S3 and return immediately; the document worker consumes the job and calls the Claude API. WhatsApp is both an outbound channel for reminders and an inbound webhook into the same API, which is what lets the verification agent close its own loop.</p>
+  <p><strong>Integrations:</strong> Google Maps Places and Geocoding plus Plus Codes for rescue locations; WhatsApp Business Cloud API; Claude API for extraction; MSG91 for OTP delivery; Razorpay scaffolded but switched off until booking exists.</p>
+
+  <h2><span class="n">08</span> Thirty days, sequenced</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Week</th><th>Build</th><th>Why in this order</th></tr></thead>
+      <tbody>
+        <tr><td class="w">1</td><td>Flyway schema, OTP auth, JWT with role and ownership guards, ~50 providers seeded by hand</td><td>Data and auth first &mdash; nothing above them works without them.</td></tr>
+        <tr><td class="w">2</td><td>Search endpoint with the spatial query, filters, provider profile, React screens</td><td>Now it is a shippable directory, testable with real users.</td></tr>
+        <tr><td class="w">3</td><td>Document pipeline end to end: upload &rarr; worker &rarr; extraction &rarr; confirm &rarr; record</td><td>The only risky component gets a whole week to itself.</td></tr>
+        <tr><td class="w">4</td><td>WhatsApp reminders via <code class="inl">@Scheduled</code>, emergency screen, 20 recruited users</td><td>Test the retention loop, not the feature count.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div>
+      <h3>Kept because it earns its place</h3>
+      <ul class="keep">
+        <li><strong>Modular monolith.</strong> One service, one database. No microservices, no Kafka at this size.</li>
+        <li><strong>Testcontainers</strong> for MySQL and Redis, <strong>MockWebServer</strong> for the Claude call &mdash; the pipeline is testable without spending tokens in CI.</li>
+        <li><strong>Idempotency keys</strong> on <code class="inl">/confirm</code>, retries with backoff on the AI call, a hard timeout, and a <code class="inl">FAILED</code> terminal state the user can actually see.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Cut deliberately</h3>
+      <ul class="cut">
+        <li><strong>Online booking</strong> &mdash; no small practice runs a calendar, so a call button is the honest primitive.</li>
+        <li><strong>Ratings</strong> &mdash; empty review counts are worse than none; freshness carries the trust instead.</li>
+        <li>Payments, vet-side dashboard, teleconsults, native apps, insurance, e-pharmacy, livestock, a second city, and any in-house model training.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:14px"><strong>The one metric:</strong> share of users who upload at least one record and return in week two. Not downloads. If the vault does not retain, the thesis is wrong &mdash; and 30 days is enough to find that out.</p>
+
+  <p class="foot">Companion to the <a href="./explanation.html">2-page write-up</a> and the <a href="./index.html">clickable prototype</a>. All clinics, doctors, NGOs, records and figures in the prototype are invented sample data for an illustrative Bengaluru pilot and do not represent any real organisation or animal.</p>
+</article>
+
+</body>
+</html>
