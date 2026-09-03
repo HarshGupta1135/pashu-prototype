@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pashu - two-page MVP approach for the Practo for Animals brief.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{color-scheme:light dark}
+  *{box-sizing:border-box}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<title>Pashu MVP Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ink:#0D2226;
+  --ink-2:#33484D;
+  --muted:#65797D;
+  --line:#D8E2DF;
+  --line-soft:#E7EDEB;
+  --paper:#E9EEEC;
+  --sheet:#FFFFFF;
+  --brand:#0E6E63;
+  --brand-ink:#0A4F47;
+  --brand-soft:#DDEDE9;
+  --marigold:#B7761A;
+  --marigold-soft:#F7EBD6;
+  --alert:#B03327;
+  --ok:#2A7048;
+  --shadow:0 1px 3px rgba(13,34,38,.07), 0 18px 44px rgba(13,34,38,.11);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E7EFEC; --ink-2:#B4C6C3; --muted:#8AA1A0;
+    --line:#22383B; --line-soft:#1A2C2F;
+    --paper:#070F11; --sheet:#0E2124;
+    --brand:#4FB8A8; --brand-ink:#8AD5C8; --brand-soft:#123434;
+    --marigold:#E0A44C; --marigold-soft:#2E2415;
+    --alert:#E58375; --ok:#5FBA87;
+    --shadow:0 1px 3px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E7EFEC; --ink-2:#B4C6C3; --muted:#8AA1A0;
+  --line:#22383B; --line-soft:#1A2C2F;
+  --paper:#070F11; --sheet:#0E2124;
+  --brand:#4FB8A8; --brand-ink:#8AD5C8; --brand-soft:#123434;
+  --marigold:#E0A44C; --marigold-soft:#2E2415;
+  --alert:#E58375; --ok:#5FBA87;
+  --shadow:0 1px 3px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--brand-ink)}
+
+.stack{display:flex;flex-direction:column;align-items:center;gap:22px;padding:26px 16px 56px}
+.sheet{
+  width:210mm;max-width:100%;
+  background:var(--sheet);border:1px solid var(--line);border-radius:3px;
+  box-shadow:var(--shadow);
+  padding:15mm 14mm 12mm;
+}
+.pgno{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:9mm;padding-top:3mm;border-top:1px solid var(--line-soft);
+  font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+
+/* masthead */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.top .who{display:flex;align-items:center;gap:10px}
+.glyph{
+  width:32px;height:32px;border-radius:9px;background:var(--brand);color:#fff;
+  display:grid;place-items:center;flex:none;
+}
+.glyph svg{width:19px;height:19px;display:block}
+h1{
+  font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;font-weight:800;
+  font-size:25px;letter-spacing:-.022em;margin:0;line-height:1.05;text-wrap:balance;
+}
+.sub{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+.linkbox{
+  border:1px solid var(--line);border-radius:8px;padding:7px 11px;
+  font-size:10.5px;line-height:1.5;color:var(--muted);max-width:250px;
+}
+.linkbox b{display:block;color:var(--ink);font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.linkbox a{word-break:break-all;font-family:"IBM Plex Mono",monospace;font-size:9.5px}
+
+.thesis{
+  margin:11mm 0 9mm;padding:11px 0 11px 13px;border-left:3px solid var(--brand);
+}
+.thesis p{
+  margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;
+  font-size:16.5px;line-height:1.32;letter-spacing:-.013em;text-wrap:balance;
+}
+.thesis span{color:var(--muted);font-weight:600}
+
+/* sections */
+.sec{margin-top:8mm}
+.sechead{display:flex;align-items:baseline;gap:9px;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.sechead .n{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;color:var(--brand);
+}
+.sechead h2{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:-.012em;margin:0;
+}
+.cols{column-count:2;column-gap:9mm;column-rule:1px solid var(--line-soft)}
+.cols > *{break-inside:avoid}
+p{margin:0 0 7px;color:var(--ink-2)}
+p:last-child{margin-bottom:0}
+strong{color:var(--ink);font-weight:600}
+.lead{color:var(--ink)}
+
+h3.mini{
+  font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+  color:var(--muted);margin:9px 0 5px;
+}
+h3.mini:first-child{margin-top:0}
+ul{margin:0 0 8px;padding-left:15px}
+li{margin-bottom:4px;color:var(--ink-2)}
+li:last-child{margin-bottom:0}
+ol.feat{margin:0;padding-left:0;list-style:none;counter-reset:f}
+ol.feat li{
+  counter-increment:f;position:relative;padding-left:20px;margin-bottom:6px;
+}
+ol.feat li::before{
+  content:counter(f);position:absolute;left:0;top:1px;
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  width:14px;height:14px;border-radius:4px;background:var(--brand-soft);color:var(--brand-ink);
+  display:grid;place-items:center;
+}
+
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th,td{text-align:left;padding:5px 8px 5px 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  font-weight:600;border-bottom-color:var(--line);
+}
+td.r{text-align:right;font-family:"IBM Plex Mono",monospace;color:var(--muted);white-space:nowrap}
+
+.tag{
+  display:inline-block;font-size:9px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;padding:2px 6px;border-radius:4px;
+  background:var(--marigold-soft);color:var(--marigold);vertical-align:2%;
+}
+.tag.b{background:var(--brand-soft);color:var(--brand-ink)}
+
+.figure{margin:6px 0 9px;overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:420px}
+.cap{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}
+
+.aiblock{
+  border:1px solid var(--line);border-left:2px solid var(--brand);border-radius:0 8px 8px 0;
+  padding:9px 11px;margin-bottom:8px;break-inside:avoid;
+}
+.aiblock h4{
+  font-size:11.5px;font-weight:700;margin:0 0 3px;letter-spacing:-.005em;
+  display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;
+}
+.aiblock p{margin:0 0 4px;font-size:11.5px;line-height:1.45}
+.aiblock dl{margin:0;font-size:10.5px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 7px}
+.aiblock dt{color:var(--muted);white-space:nowrap}
+.aiblock dd{margin:0;color:var(--ink-2)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:9mm}
+@media (max-width:640px){ .split,.cols{grid-template-columns:1fr;column-count:1} }
+.build li::marker{color:var(--ok)}
+.cut li::marker{color:var(--alert)}
+
+.kpi{
+  border:1px solid var(--marigold);border-radius:8px;padding:9px 11px;margin-top:7px;
+  background:var(--sheet);
+}
+.kpi .k{font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;color:var(--marigold);font-weight:700}
+.kpi p{margin:3px 0 0;font-size:11.5px}
+
+.toolgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 9mm}
+.toolgrid dl{margin:0;font-size:11.5px}
+.toolgrid dt{font-weight:600;margin-top:6px}
+.toolgrid dd{margin:0;color:var(--muted);font-size:10.5px;line-height:1.45}
+
+.note{
+  margin-top:7mm;border-top:1px solid var(--line);padding-top:5px;
+  font-size:10px;color:var(--muted);line-height:1.5;
+}
+
+@media print{
+  body{background:#fff}
+  .stack{padding:0;gap:0}
+  .sheet{
+    width:auto;border:0;box-shadow:none;border-radius:0;
+    padding:12mm 13mm;break-after:page;
+  }
+  .sheet:last-child{break-after:auto}
+  @page{size:A4;margin:0}
+}
+</style>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <marker id="ar" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="var(--line)"/>
+    </marker>
+    <marker id="arR" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="var(--alert)"/>
+    </marker>
+  </defs>
+</svg>
+
+<div class="stack">
+
+<!-- ================= PAGE 1 ================= -->
+<article class="sheet">
+  <header class="top">
+    <div class="who">
+      <span class="glyph" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20.5c-3.3 0-5.6-2-5.6-4.3 0-2 1.9-3.4 5.6-3.4s5.6 1.4 5.6 3.4c0 2.3-2.3 4.3-5.6 4.3Z"/>
+          <ellipse cx="5.4" cy="9.4" rx="2" ry="2.6"/><ellipse cx="18.6" cy="9.4" rx="2" ry="2.6"/>
+          <ellipse cx="9.4" cy="5.4" rx="1.9" ry="2.5"/><ellipse cx="14.6" cy="5.4" rx="1.9" ry="2.5"/>
+        </svg>
+      </span>
+      <div>
+        <h1>Pashu</h1>
+        <p class="sub">Practo for Animals &mdash; MVP approach &middot; Product &amp; Technology Intern assignment</p>
+      </div>
+    </div>
+    <div class="linkbox">
+      <b>Clickable prototype</b>
+      <a href="https://harshgupta1135.github.io/pashu-prototype/">harshgupta1135.github.io/pashu-prototype</a>
+      6 screens, live navigation, opens in any browser.
+    </div>
+  </header>
+
+  <div class="thesis">
+    <p>Discovery is the symptom. <span>The real gap is that no animal in India has a health record</span> &mdash; every visit starts from zero, from a handwritten slip and the owner&rsquo;s memory. So: launch as discovery, build as a health record.</p>
+  </div>
+
+  <section class="sec">
+    <div class="sechead"><span class="n">01</span><h2>Product concept</h2></div>
+    <div class="cols">
+      <h3 class="mini">Who uses it, in priority order</h3>
+      <table>
+        <thead><tr><th>User</th><th>Why they come first</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pet parents</strong><br><span style="color:var(--muted);font-size:10.5px">metro, 25&ndash;40</span></td><td>High frequency, willingness to pay, and the only user whose repeat visits create a record worth keeping.</td></tr>
+          <tr><td><strong>Rescuers &amp; feeders</strong></td><td>Bursty and urgent. Low revenue, but they generate supply density and the word of mouth that seeds a city.</td></tr>
+          <tr><td><strong>Vets &amp; clinics</strong></td><td>Supply side. Mostly single-doctor practices with no software at all.</td></tr>
+          <tr><td><strong>NGOs, ambulances, boarding</strong></td><td>The long tail with the worst discoverability today.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="mini">The problem solved first</h3>
+      <p class="lead">&ldquo;My pet needs care now, I don&rsquo;t know who is good, open or nearby &mdash; and last year&rsquo;s reports are in a drawer.&rdquo;</p>
+      <p>Scope deliberately narrow: <strong>one city</strong> (Bengaluru), <strong>companion animals only</strong>, discovery plus records. Not livestock, not multi-city, not marketplace.</p>
+
+      <h3 class="mini">Five features, and why these five</h3>
+      <ol class="feat">
+        <li><strong>Species-aware local search.</strong> A rabbit vet is not a dog vet; this shapes the result set rather than sitting in a filter drawer.</li>
+        <li><strong>Verified provider profile</strong> &mdash; today&rsquo;s hours, species handled, fee, ambulance flag, and a visible freshness score.</li>
+        <li><strong>Pet health vault.</strong> Photograph a prescription or report; get a structured, portable timeline.</li>
+        <li><strong>Auto-built care calendar.</strong> Vaccination, deworming and follow-up dates derived from what was scanned, delivered on WhatsApp.</li>
+        <li><strong>Emergency mode.</strong> One screen: nearest open clinic, ambulance on call, exact location as a Plus Code.</li>
+      </ol>
+      <p style="font-size:11px;color:var(--muted)">Features 3 and 4 are the retention engine. Features 1 and 2 are how anyone arrives. Feature 5 is how a city hears about us.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="n">02</span><h2>User flow &amp; prototype</h2></div>
+    <div class="figure">
+      <svg viewBox="0 0 700 132" role="img" aria-label="User flow: home to search to profile to scan to timeline, with an emergency branch off home">
+        <g font-family="IBM Plex Sans, sans-serif">
+          <!-- main row -->
+          <g>
+            <rect x="2" y="24" width="118" height="40" rx="7" fill="var(--brand-soft)" stroke="var(--brand)"/>
+            <text x="61" y="41" font-size="11" font-weight="600" fill="var(--brand-ink)" text-anchor="middle">Set location</text>
+            <text x="61" y="54" font-size="9.5" fill="var(--brand-ink)" text-anchor="middle">+ species</text>
+          </g>
+          <line x1="122" y1="44" x2="140" y2="44" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+          <g>
+            <rect x="144" y="24" width="118" height="40" rx="7" fill="none" stroke="var(--line)"/>
+            <text x="203" y="41" font-size="11" font-weight="600" fill="var(--ink)" text-anchor="middle">Search &amp; filter</text>
+            <text x="203" y="54" font-size="9.5" fill="var(--muted)" text-anchor="middle">open now &middot; distance</text>
+          </g>
+          <line x1="264" y1="44" x2="282" y2="44" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+          <g>
+            <rect x="286" y="24" width="118" height="40" rx="7" fill="none" stroke="var(--line)"/>
+            <text x="345" y="41" font-size="11" font-weight="600" fill="var(--ink)" text-anchor="middle">Profile &rarr; call</text>
+            <text x="345" y="54" font-size="9.5" fill="var(--muted)" text-anchor="middle">verified hours, fee</text>
+          </g>
+          <line x1="406" y1="44" x2="424" y2="44" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+          <g>
+            <rect x="428" y="24" width="118" height="40" rx="7" fill="var(--brand-soft)" stroke="var(--brand)"/>
+            <text x="487" y="41" font-size="11" font-weight="600" fill="var(--brand-ink)" text-anchor="middle">Scan Rx / report</text>
+            <text x="487" y="54" font-size="9.5" fill="var(--brand-ink)" text-anchor="middle">AI reads, user confirms</text>
+          </g>
+          <line x1="548" y1="44" x2="566" y2="44" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+          <g>
+            <rect x="570" y="24" width="126" height="40" rx="7" fill="var(--brand-soft)" stroke="var(--brand)"/>
+            <text x="633" y="41" font-size="11" font-weight="600" fill="var(--brand-ink)" text-anchor="middle">Health timeline</text>
+            <text x="633" y="54" font-size="9.5" fill="var(--brand-ink)" text-anchor="middle">labs, reminders, export</text>
+          </g>
+          <!-- return loop -->
+          <path d="M633 68v26H61v-24" fill="none" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+          <text x="347" y="106" font-size="9.5" fill="var(--muted)" text-anchor="middle">reminder on WhatsApp brings them back &mdash; this loop is the product</text>
+          <!-- emergency branch -->
+          <path d="M61 22V10h108" fill="none" stroke="var(--alert)" stroke-width="1.4" marker-end="url(#arR)"/>
+          <text x="176" y="14" font-size="10" font-weight="600" fill="var(--alert)">Emergency mode &rarr; triage band &middot; ambulance &middot; Plus Code &middot; shareable case file</text>
+        </g>
+      </svg>
+      <p class="cap">Six screens are built and clickable: home, results, provider profile, scan-and-confirm, health timeline, emergency. Tinted boxes are the screens where AI does the work.</p>
+    </div>
+  </section>
+
+  <div class="pgno"><span>Pashu &mdash; MVP approach</span><span>Page 1 of 2</span></div>
+</article>
+
+<!-- ================= PAGE 2 ================= -->
+<article class="sheet">
+  <section>
+    <div class="sechead"><span class="n">03</span><h2>AI &amp; automation</h2></div>
+    <p style="font-size:11.5px;margin-bottom:8px">Four workflows, ordered by how much they differentiate. <span class="tag">Own concept</span> marks what I am claiming as mine rather than borrowing from existing products.</p>
+
+    <div class="split">
+      <div>
+        <div class="aiblock">
+          <h4>A &middot; Prescription &amp; report ingestion</h4>
+          <p>A phone photo of a handwritten Indian vet slip becomes structured data, with confidence shown per field and low-confidence values sent back to the owner to confirm rather than silently guessed.</p>
+          <dl>
+            <dt>Processes</dt><dd>Photos, lab PDFs, discharge summaries, vaccination cards</dd>
+            <dt>Extracts</dt><dd>Clinic, diagnosis, weight, each drug with dose / route / frequency / duration</dd>
+            <dt>Automates</dt><dd>Manual data entry, and the follow-up dates that fall out of it</dd>
+          </dl>
+        </div>
+        <div class="aiblock">
+          <h4>B &middot; Provider verification agent <span class="tag">Own concept</span></h4>
+          <p>Indian directories die of stale data. An agent messages each provider on WhatsApp on a rolling cycle &mdash; still open, still these hours, still taking cats &mdash; reads the free-text reply, updates the listing, and decays a visible <strong>freshness score</strong> when nobody answers.</p>
+          <dl>
+            <dt>Processes</dt><dd>Maps listings, NGO PDFs, Instagram bios, forwarded WhatsApp lists, provider replies</dd>
+            <dt>Automates</dt><dd>The ops team every directory otherwise has to hire</dd>
+          </dl>
+        </div>
+      </div>
+      <div>
+        <div class="aiblock">
+          <h4>C &middot; Species-aware record intelligence <span class="tag">Own concept</span></h4>
+          <p>Creatinine of 1.4&nbsp;mg/dL is normal in a dog and alarming in a person. Lab values are read against <strong>species and breed reference ranges</strong>, shown as a trend against the previous result, with a drafted set of questions to ask the vet. A second check recomputes mg/kg dosing against the extracted body weight and flags mismatches &mdash; an unclear digit is a dosing error, not a typo.</p>
+          <dl>
+            <dt>Processes</dt><dd>The pet&rsquo;s own record history plus species reference ranges</dd>
+            <dt>Automates</dt><dd>Reading two PDFs side by side to notice a change</dd>
+          </dl>
+        </div>
+        <div class="aiblock">
+          <h4>D &middot; Rescue triage &amp; case file <span class="tag">Own concept</span></h4>
+          <p>A one-line description becomes an urgency band &mdash; go now / within 24 hours / home care &mdash; routed to the right kind of provider. Photo plus location then becomes a WhatsApp message and an Instagram caption, which rescuers currently retype a dozen times per animal.</p>
+          <dl>
+            <dt>Processes</dt><dd>Free-text symptoms, photo, geolocation, provider capacity</dd>
+            <dt>Guardrail</dt><dd>Never a diagnosis, never a drug or dose; red-flag phrases escalate by rule, not by model</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="n">04</span><h2>Technology</h2></div>
+    <div class="split">
+      <div>
+        <h3 class="mini">Stack</h3>
+        <p style="font-size:11.5px"><strong>Next.js</strong> PWA on Vercel for the client &mdash; installable, no app-store friction, one codebase for both user types. <strong>Java Spring Boot</strong> for the API: a modular monolith with Spring Web, Spring Security (JWT), Spring Data JPA and Flyway migrations. <strong>PostgreSQL + PostGIS</strong> for providers and geo-search, <strong>Redis</strong> for sessions and rate limits, <strong>S3</strong> for documents. Document extraction runs off a <strong>RabbitMQ</strong> queue in a separate Spring worker, so an upload never blocks a request.</p>
+        <h3 class="mini">APIs &amp; integrations</h3>
+        <ul style="font-size:11.5px">
+          <li><strong>Google Maps</strong> Places, Geocoding, Distance Matrix &mdash; plus Plus Codes for rescue locations.</li>
+          <li><strong>WhatsApp Business Cloud API</strong> &mdash; the real interface in India: reminders, document upload, provider verification.</li>
+          <li><strong>Claude API</strong> &mdash; vision extraction and structured output for the document pipeline.</li>
+          <li><strong>MSG91</strong> &mdash; phone OTP authentication.</li>
+          <li><strong>Razorpay</strong> &mdash; scaffolded, switched on only after booking exists.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="mini">How it connects</h3>
+        <div class="figure">
+          <svg viewBox="0 0 330 218" role="img" aria-label="Architecture: Next.js PWA and WhatsApp both talk to a Spring Boot API, which uses Postgres with PostGIS, Redis and S3, and queues document jobs to a worker that calls the Claude API">
+            <g font-family="IBM Plex Sans, sans-serif" font-size="9.5">
+              <rect x="2" y="2" width="150" height="30" rx="6" fill="var(--brand-soft)" stroke="var(--brand)"/>
+              <text x="77" y="21" font-size="10" font-weight="600" fill="var(--brand-ink)" text-anchor="middle">Next.js PWA</text>
+              <rect x="178" y="2" width="150" height="30" rx="6" fill="none" stroke="var(--line)"/>
+              <text x="253" y="21" font-size="10" font-weight="600" fill="var(--ink)" text-anchor="middle">WhatsApp Cloud API</text>
+
+              <line x1="77" y1="34" x2="120" y2="56" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+              <line x1="253" y1="34" x2="210" y2="56" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+
+              <rect x="60" y="58" width="210" height="34" rx="6" fill="var(--brand)" stroke="var(--brand)"/>
+              <text x="165" y="73" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">Spring Boot API</text>
+              <text x="165" y="85" font-size="9" fill="#fff" opacity=".85" text-anchor="middle">REST &middot; JWT auth &middot; modular monolith</text>
+
+              <line x1="110" y1="94" x2="72" y2="118" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+              <line x1="165" y1="94" x2="165" y2="118" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+              <line x1="220" y1="94" x2="258" y2="118" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+
+              <rect x="2" y="120" width="106" height="30" rx="6" fill="none" stroke="var(--line)"/>
+              <text x="55" y="132" font-weight="600" fill="var(--ink)" text-anchor="middle">PostgreSQL</text>
+              <text x="55" y="143" font-size="8.5" fill="var(--muted)" text-anchor="middle">+ PostGIS geo-search</text>
+
+              <rect x="118" y="120" width="94" height="30" rx="6" fill="none" stroke="var(--line)"/>
+              <text x="165" y="132" font-weight="600" fill="var(--ink)" text-anchor="middle">Redis</text>
+              <text x="165" y="143" font-size="8.5" fill="var(--muted)" text-anchor="middle">cache, rate limit</text>
+
+              <rect x="222" y="120" width="106" height="30" rx="6" fill="none" stroke="var(--line)"/>
+              <text x="275" y="132" font-weight="600" fill="var(--ink)" text-anchor="middle">S3</text>
+              <text x="275" y="143" font-size="8.5" fill="var(--muted)" text-anchor="middle">scans, reports, PDFs</text>
+
+              <path d="M270 75h44v103h-28" fill="none" stroke="var(--marigold)" stroke-width="1.4" stroke-dasharray="3 3"/>
+              <text x="318" y="122" font-size="8.5" fill="var(--marigold)" text-anchor="middle" transform="rotate(90 318 122)">RabbitMQ</text>
+
+              <rect x="60" y="162" width="226" height="32" rx="6" fill="var(--marigold-soft)" stroke="var(--marigold)"/>
+              <text x="173" y="175" font-size="10" font-weight="700" fill="var(--marigold)" text-anchor="middle">Document worker (Spring)</text>
+              <text x="173" y="187" font-size="8.5" fill="var(--marigold)" text-anchor="middle">extract &rarr; validate &rarr; species ranges &rarr; schedule</text>
+
+              <line x1="173" y1="196" x2="173" y2="210" stroke="var(--line)" stroke-width="1.4" marker-end="url(#ar)"/>
+              <text x="173" y="216" font-size="9.5" font-weight="600" fill="var(--brand-ink)" text-anchor="middle">Claude API &mdash; vision + structured output</text>
+            </g>
+          </svg>
+        </div>
+        <p class="cap">Uploads return immediately and are processed asynchronously; the confirm-screen is served from the worker&rsquo;s output. One service, one database, no microservices at this size.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="n">05</span><h2>30 days: what I build, what I cut</h2></div>
+    <div class="split">
+      <div>
+        <h3 class="mini">Build &mdash; weeks 1 to 4</h3>
+        <ul class="build" style="font-size:11.5px">
+          <li><strong>W1</strong> &middot; Schema, auth, ~50 Koramangala providers seeded and verified by hand. Data before software.</li>
+          <li><strong>W2</strong> &middot; Search, filters, provider profile, call button. Shippable directory.</li>
+          <li><strong>W3</strong> &middot; The document pipeline: upload &rarr; extract &rarr; confirm &rarr; timeline. The hard part gets the most time.</li>
+          <li><strong>W4</strong> &middot; WhatsApp reminders, emergency screen, 20 real users recruited from two clinics and one rescue group.</li>
+        </ul>
+        <div class="kpi">
+          <span class="k">The one metric</span>
+          <p>Not downloads. <strong>Share of users who upload at least one record and return in week two.</strong> If the vault does not retain, the whole thesis is wrong &mdash; and 30 days is enough to find that out.</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="mini">Deliberately left out</h3>
+        <ul class="cut" style="font-size:11.5px">
+          <li><strong>Online booking.</strong> No small practice runs a calendar; a book button would promise what the clinic cannot keep. A phone call is the honest primitive.</li>
+          <li><strong>Ratings and reviews.</strong> Empty review counts are worse than none. Freshness scores and grouped visit reasons carry the trust instead.</li>
+          <li><strong>Payments and commission</strong> &mdash; nothing to take a cut of yet.</li>
+          <li><strong>Vet-side dashboard, teleconsults, native apps, insurance, e-pharmacy, livestock, second city, any in-house model training.</strong></li>
+        </ul>
+        <p style="font-size:11px;color:var(--muted)">Each cut buys days for the extraction pipeline, which is the only component a competitor cannot copy in a weekend.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead"><span class="n">06</span><h2>Tools &amp; AI platforms used</h2></div>
+    <div class="toolgrid">
+      <dl>
+        <dt>Claude (Opus) in Claude Code</dt>
+        <dd>Product reasoning as a sparring partner, then writing and publishing the prototype and this document as hand-authored HTML.</dd>
+        <dt>Claude API &mdash; proposed in the build</dt>
+        <dd>Vision extraction and structured output for the document pipeline.</dd>
+      </dl>
+      <dl>
+        <dt>Prototype</dt>
+        <dd>Hand-written HTML, CSS and vanilla JavaScript; no framework, no template. Type: Bricolage Grotesque with IBM Plex Sans and Mono.</dd>
+        <dt>Written by me</dt>
+        <dd>The wedge, the five features, the four AI workflows, the cut list and the retention metric are my own calls; AI was the drafting and build tool, not the strategist.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <p class="note">All clinics, doctors, NGOs, ambulances, records and figures in the prototype are invented sample data for an illustrative Bengaluru pilot and do not represent any real organisation or animal. Indian veterinary brand names appear only to show the true shape of a prescription.</p>
+
+  <div class="pgno"><span>Pashu &mdash; MVP approach</span><span>Page 2 of 2</span></div>
+</article>
+</div>
+
+</body>
+</html>

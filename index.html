@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pashu - clickable prototype for an animal-care platform in India.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{color-scheme:light dark}
+  *{box-sizing:border-box}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<title>Pashu Animal Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ink:#0D2226;
+  --ink-2:#33484D;
+  --muted:#65797D;
+  --line:#D8E2DF;
+  --line-soft:#E7EDEB;
+  --paper:#EDF1EF;
+  --card:#FFFFFF;
+  --brand:#0E6E63;
+  --brand-ink:#0A4F47;
+  --brand-soft:#DBECE8;
+  --marigold:#B7761A;
+  --marigold-soft:#F7EBD6;
+  --alert:#B03327;
+  --alert-soft:#FAE4E1;
+  --ok:#2A7048;
+  --ok-soft:#E0EFE6;
+  --shadow:0 1px 2px rgba(13,34,38,.06), 0 12px 32px rgba(13,34,38,.10);
+  --shadow-sm:0 1px 2px rgba(13,34,38,.05);
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E7EFEC;
+    --ink-2:#B4C6C3;
+    --muted:#88A09F;
+    --line:#22383B;
+    --line-soft:#1A2C2F;
+    --paper:#091416;
+    --card:#0F2326;
+    --brand:#4FB8A8;
+    --brand-ink:#8AD5C8;
+    --brand-soft:#123434;
+    --marigold:#E0A44C;
+    --marigold-soft:#2E2415;
+    --alert:#E58375;
+    --alert-soft:#361B18;
+    --ok:#5FBA87;
+    --ok-soft:#12301F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px rgba(0,0,0,.45);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E7EFEC;
+  --ink-2:#B4C6C3;
+  --muted:#88A09F;
+  --line:#22383B;
+  --line-soft:#1A2C2F;
+  --paper:#091416;
+  --card:#0F2326;
+  --brand:#4FB8A8;
+  --brand-ink:#8AD5C8;
+  --brand-soft:#123434;
+  --marigold:#E0A44C;
+  --marigold-soft:#2E2415;
+  --alert:#E58375;
+  --alert-soft:#361B18;
+  --ok:#5FBA87;
+  --ok-soft:#12301F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px rgba(0,0,0,.45);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- page shell ---------- */
+.wrap{max-width:1280px;margin:0 auto;padding:28px 24px 64px}
+.masthead{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+  padding-bottom:18px;margin-bottom:26px;
+  border-bottom:1px solid var(--line);
+}
+.brandline{display:flex;align-items:center;gap:12px}
+.glyph{
+  width:38px;height:38px;border-radius:11px;flex:none;
+  background:var(--brand);color:#fff;
+  display:grid;place-items:center;
+}
+.glyph svg{width:22px;height:22px;display:block}
+h1{
+  font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;
+  font-weight:800;font-size:27px;letter-spacing:-.02em;margin:0;line-height:1.05;
+  text-wrap:balance;
+}
+.tag{margin:3px 0 0;color:var(--muted);font-size:13px}
+.metaline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.pill{
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;
+  background:var(--card);white-space:nowrap;
+}
+.pill strong{color:var(--ink);font-weight:600}
+
+.grid{display:grid;grid-template-columns:246px minmax(0,1fr) 322px;gap:32px;align-items:start}
+@media (max-width:1080px){
+  .grid{grid-template-columns:minmax(0,1fr);gap:26px}
+  .stage{order:-1}
+}
+
+.eyebrow{
+  font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.13em;
+  color:var(--muted);margin:0 0 12px;
+}
+
+/* ---------- flow rail ---------- */
+.rail{display:flex;flex-direction:column;gap:0}
+.step{
+  display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;
+  align-items:start;text-align:left;padding:8px 9px 8px 7px;border-radius:10px;
+  position:relative;width:100%;
+}
+.step:hover{background:var(--line-soft)}
+.step .num{
+  width:26px;height:26px;border-radius:8px;flex:none;
+  display:grid;place-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+}
+.step .lbl{font-weight:600;font-size:13.5px;line-height:1.3;padding-top:3px}
+.step .sub{color:var(--muted);font-size:11.5px;line-height:1.35;margin-top:2px;font-weight:400}
+.step[aria-current="true"] .num{background:var(--brand);border-color:var(--brand);color:#fff}
+.step[aria-current="true"] .lbl{color:var(--brand-ink)}
+.rail .conn{height:14px;width:1px;background:var(--line);margin-left:20px}
+.branch{margin-left:22px;padding-left:16px;border-left:1px dashed var(--line)}
+.branch .step{padding-left:4px}
+.branch-note{
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  padding:8px 0 4px 4px;
+}
+.step.urgent .num{border-color:var(--alert);color:var(--alert)}
+.step.urgent[aria-current="true"] .num{background:var(--alert);border-color:var(--alert);color:#fff}
+.step.urgent[aria-current="true"] .lbl{color:var(--alert)}
+
+.railfoot{
+  margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--muted);line-height:1.5;
+}
+
+/* ---------- phone ---------- */
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+.phone{
+  width:376px;max-width:100%;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:34px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  height:748px;
+}
+.statusbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 22px 5px;font-size:11px;color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;flex:none;
+}
+.screen{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.screen[hidden]{display:none!important}
+.sc-pad{padding:6px 18px 22px}
+
+.appbar{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 18px 12px;border-bottom:1px solid var(--line-soft);
+  position:sticky;top:0;background:var(--card);z-index:3;
+}
+.back{
+  width:28px;height:28px;border-radius:8px;border:1px solid var(--line);
+  display:grid;place-items:center;flex:none;color:var(--ink-2);
+}
+.back svg{width:14px;height:14px}
+.appbar h2{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:15px;font-weight:700;
+  margin:0;letter-spacing:-.01em;
+}
+.appbar .ab-sub{font-size:11px;color:var(--muted);margin:0}
+
+/* ---------- generic UI atoms ---------- */
+.row{display:flex;align-items:center;gap:8px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+  font-size:11.5px;color:var(--ink-2);background:var(--card);white-space:nowrap;
+}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.chip.soft{background:var(--line-soft);border-color:transparent;color:var(--muted)}
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10.5px;font-weight:600;letter-spacing:.02em;
+  padding:3px 8px;border-radius:6px;white-space:nowrap;
+}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.warn{background:var(--marigold-soft);color:var(--marigold)}
+.badge.bad{background:var(--alert-soft);color:var(--alert)}
+.badge.brand{background:var(--brand-soft);color:var(--brand-ink)}
+.badge svg{width:11px;height:11px}
+
+.searchbox{
+  display:flex;align-items:center;gap:9px;
+  border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+  background:var(--card);box-shadow:var(--shadow-sm);color:var(--muted);font-size:13.5px;
+  width:100%;text-align:left;
+}
+.searchbox svg{width:15px;height:15px;flex:none;color:var(--muted)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border-radius:11px;padding:12px 14px;font-size:13.5px;font-weight:600;
+  border:1px solid var(--brand);background:var(--brand);color:#fff;width:100%;
+}
+.btn svg{width:15px;height:15px}
+.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line)}
+.btn.danger{background:var(--alert);border-color:var(--alert)}
+.btn.sm{padding:9px 12px;font-size:12.5px;border-radius:9px}
+
+.card{
+  border:1px solid var(--line);border-radius:var(--r);background:var(--card);
+  padding:13px;
+}
+.card.flat{border-color:var(--line-soft);box-shadow:none}
+
+.sechead{
+  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+  margin:20px 0 9px;
+}
+.sechead h3{
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--muted);margin:0;
+}
+.sechead a{font-size:11.5px;color:var(--brand-ink);text-decoration:none;font-weight:600}
+
+/* home */
+.locbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 0 12px}
+.locbar .loc{display:flex;align-items:center;gap:6px;font-weight:600;font-size:13.5px}
+.locbar .loc svg{width:14px;height:14px;color:var(--brand)}
+.locbar .loc span{color:var(--muted);font-weight:400;font-size:11.5px}
+.avatar{
+  width:30px;height:30px;border-radius:9px;flex:none;background:var(--marigold-soft);
+  color:var(--marigold);display:grid;place-items:center;font-weight:700;font-size:12px;
+  border:1px solid var(--line);
+}
+
+.duecard{
+  border:1px solid var(--line);border-left:3px solid var(--marigold);
+  border-radius:var(--r);background:var(--card);padding:12px 13px;
+  display:grid;gap:8px;
+}
+.duecard .t{font-weight:600;font-size:13.5px;display:flex;gap:7px;align-items:center}
+.duecard .d{color:var(--muted);font-size:11.5px;line-height:1.45}
+
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cat{
+  border:1px solid var(--line);border-radius:12px;padding:11px 8px 9px;
+  display:grid;gap:6px;justify-items:center;text-align:center;background:var(--card);
+}
+.cat:hover{border-color:var(--brand)}
+.cat svg{width:19px;height:19px;color:var(--brand)}
+.cat .cl{font-size:11px;font-weight:600;line-height:1.2}
+.cat .cn{font-size:10px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+
+.sos{
+  width:100%;display:flex;align-items:center;gap:11px;
+  border:1px solid var(--alert);background:var(--alert-soft);
+  border-radius:var(--r);padding:12px 13px;text-align:left;
+}
+.sos .ic{
+  width:32px;height:32px;border-radius:9px;background:var(--alert);color:#fff;
+  display:grid;place-items:center;flex:none;
+}
+.sos .ic svg{width:17px;height:17px}
+.sos .st{font-weight:700;font-size:13.5px;color:var(--alert)}
+.sos .ss{font-size:11px;color:var(--ink-2);line-height:1.35}
+
+/* provider list */
+.maprow{
+  height:104px;border-radius:12px;border:1px solid var(--line);overflow:hidden;
+  position:relative;background:var(--line-soft);
+}
+.maprow svg{position:absolute;inset:0;width:100%;height:100%}
+.maprow .mtag{
+  position:absolute;left:9px;bottom:9px;background:var(--card);
+  border:1px solid var(--line);border-radius:7px;padding:4px 8px;
+  font-size:10.5px;font-weight:600;
+}
+
+.plist{display:grid;gap:9px}
+.pcard{
+  width:100%;text-align:left;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);padding:12px 13px;display:grid;gap:7px;
+}
+.pcard:hover{border-color:var(--brand)}
+.pcard .pn{font-weight:600;font-size:13.5px;line-height:1.25}
+.pcard .pt{font-size:11.5px;color:var(--muted)}
+.pcard .pmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--ink-2)}
+.dot{width:3px;height:3px;border-radius:50%;background:var(--line);flex:none}
+.fresh{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted)}
+.freshbar{width:34px;height:4px;border-radius:2px;background:var(--line);overflow:hidden;flex:none}
+.freshbar i{display:block;height:100%;background:var(--ok);border-radius:2px}
+.freshbar.mid i{background:var(--marigold)}
+
+/* profile */
+.phero{display:grid;gap:10px;padding:14px 0 4px}
+.phero .pname{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:19px;font-weight:700;
+  letter-spacing:-.015em;line-height:1.15;margin:0;text-wrap:balance;
+}
+.phero .psub{color:var(--muted);font-size:12px;margin:0}
+.kv{display:grid;gap:0}
+.kv .r{
+  display:grid;grid-template-columns:88px minmax(0,1fr);gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px;
+}
+.kv .r:last-child{border-bottom:0}
+.kv .k{color:var(--muted);font-size:11.5px}
+.stickybar{
+  position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line-soft);
+  padding:11px 18px 14px;display:flex;gap:8px;
+}
+
+/* scan / parse */
+.scanshot{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line-soft);
+  position:relative;
+}
+.scanshot svg{display:block;width:100%;height:150px}
+.scanshot .stamp{
+  position:absolute;right:8px;top:8px;background:var(--card);border:1px solid var(--line);
+  border-radius:6px;padding:3px 7px;font-size:10px;font-weight:600;color:var(--muted);
+}
+.aistrip{
+  display:flex;align-items:flex-start;gap:9px;
+  background:var(--brand-soft);border-radius:12px;padding:11px 12px;margin-top:11px;
+}
+.aistrip svg{width:15px;height:15px;color:var(--brand-ink);flex:none;margin-top:1px}
+.aistrip p{margin:0;font-size:11.5px;color:var(--brand-ink);line-height:1.45}
+.aistrip strong{font-weight:600}
+
+.field{
+  border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:var(--card);
+  display:grid;gap:4px;
+}
+.field.needs{border-color:var(--marigold);background:var(--card)}
+.field .fk{
+  font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  display:flex;justify-content:space-between;gap:8px;align-items:center;
+}
+.field .fv{font-size:13px;font-weight:500;line-height:1.35}
+.field .fv em{font-style:normal;color:var(--muted);font-weight:400;font-size:11.5px}
+.conf{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted)}
+.conf.low{color:var(--marigold);font-weight:600}
+.fields{display:grid;gap:8px}
+.medrow{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;
+  padding:9px 0;border-bottom:1px dashed var(--line);
+}
+.medrow:last-child{border-bottom:0}
+.medrow .mn{font-size:12.5px;font-weight:600}
+.medrow .md{font-size:11px;color:var(--muted)}
+
+/* timeline */
+.petbar{
+  display:flex;align-items:center;gap:11px;padding:13px 0 3px;
+}
+.petbar .pav{
+  width:42px;height:42px;border-radius:13px;background:var(--brand-soft);
+  display:grid;place-items:center;flex:none;color:var(--brand-ink);
+}
+.petbar .pav svg{width:23px;height:23px}
+.petbar .pn{font-weight:700;font-size:15px;font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.01em}
+.petbar .pm{font-size:11.5px;color:var(--muted)}
+
+.tl{display:grid;gap:0;margin-top:4px}
+.tlitem{display:grid;grid-template-columns:15px minmax(0,1fr);gap:11px}
+.tlrail{display:flex;flex-direction:column;align-items:center}
+.tlrail .tdot{
+  width:9px;height:9px;border-radius:50%;background:var(--brand);flex:none;margin-top:15px;
+  box-shadow:0 0 0 3px var(--brand-soft);
+}
+.tlrail .tdot.mute{background:var(--line);box-shadow:0 0 0 3px var(--line-soft)}
+.tlrail .tdot.warn{background:var(--marigold);box-shadow:0 0 0 3px var(--marigold-soft)}
+.tlrail .tline{width:1px;flex:1;background:var(--line);min-height:12px}
+.tlbody{padding:11px 0 13px;min-width:0}
+.tlbody .tdate{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.tlbody .ttitle{font-size:13px;font-weight:600;margin-top:2px;line-height:1.3}
+.tlbody .tmeta{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:3px}
+
+.labcard{border:1px solid var(--line);border-radius:var(--r);padding:12px 13px;background:var(--card)}
+.labhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:9px}
+.labhead .ln{font-size:12.5px;font-weight:600}
+.labhead .lv{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600}
+.range{margin-top:4px}
+.rangebar{height:7px;border-radius:4px;background:var(--line-soft);position:relative;overflow:hidden}
+.rangebar .safe{position:absolute;top:0;bottom:0;background:var(--ok-soft)}
+.rangebar .mark{position:absolute;top:-3px;width:2px;height:13px;background:var(--ink);border-radius:1px}
+.rangebar .prev{position:absolute;top:0;width:2px;height:7px;background:var(--muted);opacity:.55}
+.rangelabels{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted);margin-top:4px}
+.labnote{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.45}
+
+/* emergency */
+.emhead{background:var(--alert);color:#fff;padding:14px 18px 15px;position:sticky;top:0;z-index:3}
+.emhead h2{font-family:"Bricolage Grotesque",sans-serif;font-size:17px;margin:0 0 3px;letter-spacing:-.01em}
+.emhead p{margin:0;font-size:11.5px;opacity:.9;line-height:1.4}
+.emhead .back{border-color:rgba(255,255,255,.4);color:#fff}
+.loccard{
+  border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--card);
+  display:grid;gap:6px;
+}
+.loccard .pc{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.02em}
+
+/* ---------- annotation panel ---------- */
+.notes{display:grid;gap:0}
+.note{display:none;gap:14px}
+.note[data-on="true"]{display:grid}
+.note h3{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:19px;font-weight:700;
+  letter-spacing:-.015em;margin:0;line-height:1.15;text-wrap:balance;
+}
+.note .idx{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.note p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.nblock{display:grid;gap:6px;padding-top:13px;border-top:1px solid var(--line)}
+.nblock .nh{
+  font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;color:var(--muted);
+}
+.nblock ul{margin:0;padding-left:16px;display:grid;gap:5px}
+.nblock li{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.nblock li strong{color:var(--ink);font-weight:600}
+.nblock.ai{border-top-color:var(--brand);}
+.nblock.ai .nh{color:var(--brand-ink)}
+.mine{
+  display:inline-flex;align-items:center;gap:5px;background:var(--marigold-soft);
+  color:var(--marigold);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.hint{
+  font-size:11.5px;color:var(--muted);line-height:1.5;
+  border:1px dashed var(--line);border-radius:10px;padding:10px 11px;
+}
+.disclaim{
+  max-width:1280px;margin:34px auto 0;padding:0 24px;
+  font-size:11.5px;color:var(--muted);line-height:1.55;
+}
+@media (prefers-reduced-motion: no-preference){
+  .screen{scroll-behavior:smooth}
+}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brandline">
+      <span class="glyph" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20.5c-3.3 0-5.6-2-5.6-4.3 0-2 1.9-3.4 5.6-3.4s5.6 1.4 5.6 3.4c0 2.3-2.3 4.3-5.6 4.3Z"/>
+          <ellipse cx="5.4" cy="9.4" rx="2" ry="2.6"/><ellipse cx="18.6" cy="9.4" rx="2" ry="2.6"/>
+          <ellipse cx="9.4" cy="5.4" rx="1.9" ry="2.5"/><ellipse cx="14.6" cy="5.4" rx="1.9" ry="2.5"/>
+        </svg>
+      </span>
+      <div>
+        <h1>Pashu</h1>
+        <p class="tag">Find animal care nearby &mdash; and keep every record in one place.</p>
+      </div>
+    </div>
+    <div class="metaline">
+      <span class="pill"><strong>Clickable prototype</strong> &middot; 6 screens</span>
+      <span class="pill">Pilot city: <strong>Bengaluru</strong></span>
+      <span class="pill">Sample data</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- ============ FLOW RAIL ============ -->
+    <nav aria-label="User flow">
+      <p style="margin:0 0 14px;font-size:11.5px"><a href="./explanation.html" style="color:var(--brand-ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px">Read the 2-page write-up &rarr;</a></p><p class="eyebrow">User flow</p>
+      <div class="rail" id="rail">
+        <button class="step" data-go="home" aria-current="true">
+          <span class="num">1</span>
+          <span><span class="lbl">Set location &amp; species</span><span class="sub">Home, with next-due nudge</span></span>
+        </button>
+        <div class="conn"></div>
+        <button class="step" data-go="results">
+          <span class="num">2</span>
+          <span><span class="lbl">Search &amp; filter</span><span class="sub">Open now, species, ambulance</span></span>
+        </button>
+        <div class="conn"></div>
+        <button class="step" data-go="profile">
+          <span class="num">3</span>
+          <span><span class="lbl">Provider profile</span><span class="sub">Verified hours, fee, call</span></span>
+        </button>
+        <div class="conn"></div>
+        <button class="step" data-go="scan">
+          <span class="num">4</span>
+          <span><span class="lbl">Scan prescription</span><span class="sub">AI reads it, you confirm</span></span>
+        </button>
+        <div class="conn"></div>
+        <button class="step" data-go="timeline">
+          <span class="num">5</span>
+          <span><span class="lbl">Health timeline</span><span class="sub">History, labs, reminders</span></span>
+        </button>
+
+        <div class="branch">
+          <p class="branch-note">Branch from step 1</p>
+          <button class="step urgent" data-go="sos">
+            <span class="num">!</span>
+            <span><span class="lbl">Emergency mode</span><span class="sub">Rescuers &amp; night crises</span></span>
+          </button>
+        </div>
+      </div>
+      <p class="railfoot">Tap any step, or use the controls inside the phone. Everything on screen is sample data for a Bengaluru pilot &mdash; clinic names are fictional.</p>
+    </nav>
+
+    <!-- ============ PHONE ============ -->
+    <div class="stage">
+      <div class="phone">
+        <div class="statusbar"><span>9:41</span><span>Jio 4G &middot; 68%</span></div>
+
+        <!-- ---------- 1. HOME ---------- -->
+        <section class="screen" id="sc-home" aria-label="Home">
+          <div class="sc-pad">
+            <div class="locbar">
+              <span class="loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+                Koramangala 5th Block <span>&middot; Change</span>
+              </span>
+              <span class="avatar" aria-hidden="true">AK</span>
+            </div>
+
+            <button class="searchbox" data-go="results">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              Vet, ambulance, NGO, boarding&hellip;
+            </button>
+
+            <div class="chips" style="margin-top:11px">
+              <button class="chip" aria-pressed="true">Dog</button>
+              <button class="chip">Cat</button>
+              <button class="chip">Rabbit</button>
+              <button class="chip">Bird</button>
+              <button class="chip">Cattle</button>
+            </div>
+
+            <div class="sechead"><h3>Needs attention</h3></div>
+            <div class="duecard">
+              <span class="t">Riya &middot; Rabies booster
+                <span class="badge warn">Due in 6 days</span>
+              </span>
+              <span class="d">Last dose 12&nbsp;Sep&nbsp;2025, read from the prescription you scanned. Two clinics near you stock it.</span>
+              <div class="row" style="gap:7px">
+                <button class="btn sm" data-go="results">Book a slot</button>
+                <button class="btn sm ghost" data-go="timeline">View record</button>
+              </div>
+            </div>
+
+            <div class="sechead"><h3>Browse near you</h3><a href="#" data-go="results">See all</a></div>
+            <div class="cats">
+              <button class="cat" data-go="results">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                <span class="cl">Vets &amp; clinics</span><span class="cn">64</span>
+              </button>
+              <button class="cat" data-go="sos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V9a2 2 0 0 1 2-2h9l4 4h1a2 2 0 0 1 2 2v3"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/></svg>
+                <span class="cl">Ambulance</span><span class="cn">7</span>
+              </button>
+              <button class="cat" data-go="results">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5C19 16.6 12 21 12 21Z"/></svg>
+                <span class="cl">NGOs</span><span class="cn">18</span>
+              </button>
+              <button class="cat" data-go="results">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 12 4l8 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M9 20v-5h6v5"/></svg>
+                <span class="cl">Boarding</span><span class="cn">23</span>
+              </button>
+              <button class="cat" data-go="results">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v7a3 3 0 0 0 3 3v6M6 7h6M18 4v16"/></svg>
+                <span class="cl">Groomers</span><span class="cn">31</span>
+              </button>
+              <button class="cat" data-go="scan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M7 12h10"/></svg>
+                <span class="cl">Scan report</span><span class="cn">AI</span>
+              </button>
+            </div>
+
+            <div class="sechead"><h3>If it is an emergency</h3></div>
+            <button class="sos" data-go="sos">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5M12 16.5h.01"/><path d="M10.3 3.9 2.6 17.2A1.9 1.9 0 0 0 4.3 20h15.4a1.9 1.9 0 0 0 1.7-2.8L13.7 3.9a1.9 1.9 0 0 0-3.4 0Z"/></svg>
+              </span>
+              <span>
+                <span class="st">Injured animal &mdash; get help now</span>
+                <span class="ss">Nearest open clinic, ambulance on call, and a shareable case link in one tap.</span>
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ---------- 2. RESULTS ---------- -->
+        <section class="screen" id="sc-results" aria-label="Search results" hidden>
+          <div class="appbar">
+            <button class="back" data-go="home" aria-label="Back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+            </button>
+            <div>
+              <h2>Vets for dogs</h2>
+              <p class="ab-sub">Koramangala 5th Block &middot; 64 results</p>
+            </div>
+          </div>
+          <div class="sc-pad">
+            <div class="chips" style="padding:4px 0 12px">
+              <button class="chip" aria-pressed="true">Open now</button>
+              <button class="chip">Under 3 km</button>
+              <button class="chip">Has ambulance</button>
+              <button class="chip">24&times;7</button>
+              <button class="chip">Fee &lt; &#8377;600</button>
+            </div>
+
+            <div class="maprow">
+              <svg viewBox="0 0 340 104" aria-hidden="true">
+                <rect width="340" height="104" fill="none"/>
+                <g stroke="var(--line)" stroke-width="1">
+                  <path d="M0 34h340M0 72h340M78 0v104M186 0v104M264 0v104"/>
+                </g>
+                <path d="M0 52 Q90 40 186 62 T340 48" stroke="var(--brand)" stroke-width="2.5" fill="none" opacity=".45"/>
+                <g fill="var(--brand)">
+                  <circle cx="120" cy="46" r="5"/><circle cx="205" cy="66" r="5"/><circle cx="278" cy="38" r="5"/>
+                </g>
+                <circle cx="168" cy="54" r="6.5" fill="var(--alert)"/>
+                <circle cx="168" cy="54" r="13" fill="none" stroke="var(--alert)" stroke-width="1.5" opacity=".45"/>
+              </svg>
+              <span class="mtag">You are here &middot; 3 clinics within 2 km</span>
+            </div>
+
+            <div class="plist" style="margin-top:12px">
+              <button class="pcard" data-go="profile">
+                <span class="between">
+                  <span class="pn">Paws &amp; Claws Veterinary Clinic</span>
+                  <span class="badge ok">Open</span>
+                </span>
+                <span class="pt">Dr. Meera Krishnan, BVSc &middot; Small animal practice</span>
+                <span class="pmeta">
+                  <span>0.8 km</span><span class="dot"></span>
+                  <span>&#8377;500 consult</span><span class="dot"></span>
+                  <span>Dog, Cat, Rabbit</span>
+                </span>
+                <span class="between">
+                  <span class="fresh"><span class="freshbar"><i style="width:92%"></i></span> Hours re-confirmed 2 days ago</span>
+                  <span class="badge brand">Verified</span>
+                </span>
+              </button>
+
+              <button class="pcard" data-go="profile">
+                <span class="between">
+                  <span class="pn">Indiranagar Animal Hospital</span>
+                  <span class="badge ok">Open &middot; 24&times;7</span>
+                </span>
+                <span class="pt">6 vets &middot; In-house lab, X-ray, surgery</span>
+                <span class="pmeta">
+                  <span>2.4 km</span><span class="dot"></span>
+                  <span>&#8377;750 consult</span><span class="dot"></span>
+                  <span>Ambulance</span>
+                </span>
+                <span class="between">
+                  <span class="fresh"><span class="freshbar"><i style="width:78%"></i></span> Hours re-confirmed 6 days ago</span>
+                  <span class="badge brand">Verified</span>
+                </span>
+              </button>
+
+              <button class="pcard" data-go="profile">
+                <span class="between">
+                  <span class="pn">Karuna Animal Trust &mdash; Free OPD</span>
+                  <span class="badge warn">Opens 4:00 PM</span>
+                </span>
+                <span class="pt">NGO clinic &middot; Strays and community animals</span>
+                <span class="pmeta">
+                  <span>1.6 km</span><span class="dot"></span>
+                  <span>No fee</span><span class="dot"></span>
+                  <span>Sterilisation camps</span>
+                </span>
+                <span class="between">
+                  <span class="fresh"><span class="freshbar mid"><i style="width:46%"></i></span> Awaiting re-confirmation</span>
+                  <span class="badge warn">Check by phone</span>
+                </span>
+              </button>
+
+              <button class="pcard" data-go="profile">
+                <span class="between">
+                  <span class="pn">Dr. Anand Rao &mdash; Exotic &amp; Avian</span>
+                  <span class="badge ok">Open</span>
+                </span>
+                <span class="pt">Home visits only &middot; Birds, rabbits, reptiles</span>
+                <span class="pmeta">
+                  <span>3.1 km</span><span class="dot"></span>
+                  <span>&#8377;900 visit</span><span class="dot"></span>
+                  <span>Not for dogs</span>
+                </span>
+                <span class="fresh"><span class="freshbar"><i style="width:88%"></i></span> Hours re-confirmed 3 days ago</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- 3. PROFILE ---------- -->
+        <section class="screen" id="sc-profile" aria-label="Provider profile" hidden>
+          <div class="appbar">
+            <button class="back" data-go="results" aria-label="Back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+            </button>
+            <div><h2>Clinic profile</h2><p class="ab-sub">0.8 km from you</p></div>
+          </div>
+          <div class="sc-pad">
+            <div class="phero">
+              <div class="row" style="gap:7px;flex-wrap:wrap">
+                <span class="badge ok">Open until 8:30 PM</span>
+                <span class="badge brand">Registration verified</span>
+              </div>
+              <h3 class="pname">Paws &amp; Claws Veterinary Clinic</h3>
+              <p class="psub">Dr. Meera Krishnan, BVSc &amp; AH &middot; 11 years in practice</p>
+            </div>
+
+            <div class="chips" style="padding:6px 0 14px">
+              <button class="chip soft">Dog</button>
+              <button class="chip soft">Cat</button>
+              <button class="chip soft">Rabbit</button>
+              <button class="chip soft">Vaccination</button>
+              <button class="chip soft">Dental</button>
+              <button class="chip soft">In-house lab</button>
+            </div>
+
+            <div class="card flat kv">
+              <div class="r"><span class="k">Today</span><span>10:00 AM &ndash; 1:30 PM, 5:00 &ndash; 8:30 PM</span></div>
+              <div class="r"><span class="k">Sunday</span><span>Closed &middot; emergency line only</span></div>
+              <div class="r"><span class="k">Consult</span><span class="mono">&#8377;500</span> </div>
+              <div class="r"><span class="k">Address</span><span>18, 6th Cross, Koramangala 5th Block<br><span class="mono" style="color:var(--muted);font-size:11px">Plus Code 7J4VXH8W+9V</span></span></div>
+              <div class="r"><span class="k">Languages</span><span>Kannada, English, Hindi</span></div>
+            </div>
+
+            <div class="aistrip" style="margin-top:12px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <p><strong>Freshness check &middot; 2 days ago.</strong> Our agent messaged the clinic on WhatsApp to confirm hours and species handled. Reply received in 4 minutes.</p>
+            </div>
+
+            <div class="sechead"><h3>What people came here for</h3></div>
+            <div class="card flat" style="display:grid;gap:8px">
+              <div class="between" style="font-size:12.5px"><span>Vaccination &amp; deworming</span><span class="mono" style="color:var(--muted)">41%</span></div>
+              <div class="between" style="font-size:12.5px"><span>Skin &amp; tick treatment</span><span class="mono" style="color:var(--muted)">27%</span></div>
+              <div class="between" style="font-size:12.5px"><span>Gastro / vomiting</span><span class="mono" style="color:var(--muted)">18%</span></div>
+              <p style="margin:2px 0 0;font-size:11px;color:var(--muted)">Grouped from 143 anonymised visit records on Pashu.</p>
+            </div>
+          </div>
+          <div class="stickybar">
+            <button class="btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2Z"/></svg>
+              Call clinic
+            </button>
+            <button class="btn ghost" data-go="scan" style="width:auto;flex:none;padding-inline:14px">Add record</button>
+          </div>
+        </section>
+
+        <!-- ---------- 4. SCAN + PARSE ---------- -->
+        <section class="screen" id="sc-scan" aria-label="Scanned prescription" hidden>
+          <div class="appbar">
+            <button class="back" data-go="profile" aria-label="Back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+            </button>
+            <div><h2>Check what we read</h2><p class="ab-sub">Prescription &middot; 3 Sep 2026</p></div>
+          </div>
+          <div class="sc-pad">
+            <div class="scanshot">
+              <svg viewBox="0 0 340 150" aria-label="Photo of a handwritten prescription">
+                <rect width="340" height="150" fill="var(--card)"/>
+                <rect x="14" y="10" width="312" height="130" rx="4" fill="none" stroke="var(--line)"/>
+                <path d="M26 30h84M26 38h56" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+                <path d="M26 52h288" stroke="var(--line)" stroke-width="1"/>
+                <g stroke="var(--ink-2)" stroke-width="1.7" stroke-linecap="round" opacity=".45" fill="none">
+                  <path d="M26 66c8-5 12 5 20 0s12 4 22-1 14 3 24-2"/>
+                  <path d="M26 84c10-6 14 6 24 1s16 3 26-2 12 4 22-1"/>
+                  <path d="M26 102c7-5 13 4 21 0s13 5 23-1"/>
+                  <path d="M26 120c9-5 15 5 25 0s13 3 21-2"/>
+                </g>
+                <path d="M232 112c14-9 22 6 34-3" stroke="var(--brand)" stroke-width="2" opacity=".6" fill="none"/>
+                <rect x="20" y="58" width="180" height="16" fill="var(--brand)" opacity=".10"/>
+                <rect x="20" y="76" width="196" height="16" fill="var(--brand)" opacity=".10"/>
+                <rect x="20" y="94" width="150" height="16" fill="var(--marigold)" opacity=".16"/>
+              </svg>
+              <span class="stamp">Photo &middot; 1 page</span>
+            </div>
+
+            <div class="aistrip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <p><strong>Read in 6 seconds.</strong> 9 of 11 fields are confident. Two are highlighted below &mdash; please confirm them, then we file it to Riya&rsquo;s record and set the follow-up dates.</p>
+            </div>
+
+            <div class="sechead"><h3>Visit</h3></div>
+            <div class="fields">
+              <div class="field">
+                <span class="fk">Clinic &amp; vet <span class="conf">98%</span></span>
+                <span class="fv">Paws &amp; Claws Veterinary Clinic <em>&middot; Dr. Meera Krishnan</em></span>
+              </div>
+              <div class="field">
+                <span class="fk">Diagnosis <span class="conf">94%</span></span>
+                <span class="fv">Acute gastroenteritis <em>&middot; suspected dietary</em></span>
+              </div>
+              <div class="field needs">
+                <span class="fk">Body weight <span class="conf low">Confirm</span></span>
+                <span class="fv mono">18.4 kg <em style="font-family:'IBM Plex Sans',sans-serif">&mdash; digit unclear, could be 13.4 kg. Last recorded: 17.9 kg</em></span>
+              </div>
+            </div>
+
+            <div class="sechead"><h3>Medicines read from the page</h3></div>
+            <div class="card flat">
+              <div class="medrow">
+                <span><span class="mn">Inj. Melonex</span><span class="md mono">0.2 mg/kg SC &middot; once daily &times; 3 days</span></span>
+                <span class="conf">96%</span>
+              </div>
+              <div class="medrow">
+                <span><span class="mn">Tab. Ceftum 250</span><span class="md mono">1 tab BD &middot; after food &times; 5 days</span></span>
+                <span class="conf">91%</span>
+              </div>
+              <div class="medrow">
+                <span><span class="mn">Syp. Sporlac</span><span class="md mono">5 ml BD &times; 5 days</span></span>
+                <span class="conf low">Confirm &middot; 62%</span>
+              </div>
+            </div>
+            <div class="card" style="margin-top:9px;border-color:var(--marigold);display:grid;gap:6px">
+              <span class="badge warn" style="justify-self:start">Dose cross-check</span>
+              <span style="font-size:12px;line-height:1.5">At 18.4&nbsp;kg the Melonex dose reads as <span class="mono">3.7 mg</span>, which matches the label. If the weight is actually 13.4&nbsp;kg, the dose should be re-checked with the clinic.</span>
+            </div>
+
+            <div class="sechead"><h3>What we will schedule</h3></div>
+            <div class="card flat" style="display:grid;gap:9px">
+              <div class="between" style="font-size:12.5px"><span>Course ends</span><span class="mono">8 Sep 2026</span></div>
+              <div class="between" style="font-size:12.5px"><span>Follow-up review</span><span class="mono">10 Sep 2026</span></div>
+              <div class="between" style="font-size:12.5px"><span>Rabies booster (from earlier record)</span><span class="mono">9 Sep 2026</span></div>
+              <p style="margin:0;font-size:11px;color:var(--muted)">Reminders arrive on WhatsApp. Nothing is added to the record until you confirm.</p>
+            </div>
+
+            <div class="row" style="gap:8px;margin-top:14px">
+              <button class="btn" data-go="timeline">Confirm &amp; file to record</button>
+            </div>
+            <button class="btn ghost sm" style="margin-top:8px" data-go="timeline">Edit fields first</button>
+          </div>
+        </section>
+
+        <!-- ---------- 5. TIMELINE ---------- -->
+        <section class="screen" id="sc-timeline" aria-label="Pet health timeline" hidden>
+          <div class="appbar">
+            <button class="back" data-go="home" aria-label="Back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+            </button>
+            <div><h2>Riya&rsquo;s health record</h2><p class="ab-sub">14 entries &middot; 3 clinics</p></div>
+          </div>
+          <div class="sc-pad">
+            <div class="petbar">
+              <span class="pav" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20.5c-3.3 0-5.6-2-5.6-4.3 0-2 1.9-3.4 5.6-3.4s5.6 1.4 5.6 3.4c0 2.3-2.3 4.3-5.6 4.3Z"/>
+                  <ellipse cx="5.4" cy="9.4" rx="2" ry="2.6"/><ellipse cx="18.6" cy="9.4" rx="2" ry="2.6"/>
+                  <ellipse cx="9.4" cy="5.4" rx="1.9" ry="2.5"/><ellipse cx="14.6" cy="5.4" rx="1.9" ry="2.5"/>
+                </svg>
+              </span>
+              <span>
+                <span class="pn">Riya</span>
+                <span class="pm">Indie &middot; female, spayed &middot; 3 yr 2 mo &middot; <span class="mono">18.4 kg</span></span>
+              </span>
+            </div>
+
+            <div class="card" style="margin-top:12px;border-left:3px solid var(--marigold);display:grid;gap:5px">
+              <span class="between"><span style="font-weight:600;font-size:12.5px">Next up</span><span class="badge warn">6 days</span></span>
+              <span style="font-size:12px;color:var(--ink-2);line-height:1.45">Rabies booster on <span class="mono">9 Sep</span>, deworming on <span class="mono">27 Sep</span>. Both derived from scanned prescriptions.</span>
+            </div>
+
+            <div class="sechead"><h3>Lab trend &middot; renal panel</h3></div>
+            <div class="labcard">
+              <div class="labhead">
+                <span class="ln">Creatinine</span>
+                <span class="lv">1.4 <span style="font-size:10.5px;color:var(--muted);font-weight:400">mg/dL</span></span>
+              </div>
+              <div class="range">
+                <div class="rangebar">
+                  <span class="safe" style="left:16%;right:22%"></span>
+                  <span class="prev" style="left:34%"></span>
+                  <span class="mark" style="left:54%"></span>
+                </div>
+                <div class="rangelabels"><span>0.2</span><span>0.5</span><span>1.8</span><span>2.6</span></div>
+              </div>
+              <p class="labnote">Within the <strong>canine</strong> reference range 0.5&ndash;1.8&nbsp;mg/dL. Up from 1.0 in Apr 2026 (grey mark). A human range would have flagged this as high &mdash; species matters.</p>
+            </div>
+
+            <div class="sechead"><h3>History</h3></div>
+            <div class="tl">
+              <div class="tlitem">
+                <span class="tlrail"><span class="tdot"></span><span class="tline"></span></span>
+                <span class="tlbody">
+                  <span class="tdate">3 Sep 2026 &middot; Just added</span>
+                  <span class="ttitle">Acute gastroenteritis &mdash; Paws &amp; Claws</span>
+                  <span class="tmeta">Melonex, Ceftum 250, Sporlac. Course ends 8 Sep. <span class="badge brand">Scanned</span></span>
+                </span>
+              </div>
+              <div class="tlitem">
+                <span class="tlrail"><span class="tdot warn"></span><span class="tline"></span></span>
+                <span class="tlbody">
+                  <span class="tdate">18 Apr 2026</span>
+                  <span class="ttitle">Blood work &mdash; CBC + renal panel</span>
+                  <span class="tmeta">Creatinine 1.0, ALT 82&nbsp;U/L, all in canine range. Report PDF attached.</span>
+                </span>
+              </div>
+              <div class="tlitem">
+                <span class="tlrail"><span class="tdot"></span><span class="tline"></span></span>
+                <span class="tlbody">
+                  <span class="tdate">12 Sep 2025</span>
+                  <span class="ttitle">Anti-rabies vaccine &mdash; annual</span>
+                  <span class="tmeta">Batch noted. Next due 9 Sep 2026, reminder already set.</span>
+                </span>
+              </div>
+              <div class="tlitem">
+                <span class="tlrail"><span class="tdot mute"></span><span class="tline"></span></span>
+                <span class="tlbody">
+                  <span class="tdate">27 Mar 2025</span>
+                  <span class="ttitle">Deworming &mdash; praziquantel</span>
+                  <span class="tmeta">Quarterly cycle. Two doses since, both logged.</span>
+                </span>
+              </div>
+              <div class="tlitem">
+                <span class="tlrail"><span class="tdot mute"></span></span>
+                <span class="tlbody">
+                  <span class="tdate">4 Jul 2023</span>
+                  <span class="ttitle">Spay surgery &mdash; Karuna Animal Trust</span>
+                  <span class="tmeta">Rescued as a pup from 80 Feet Road. Discharge summary attached.</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="aistrip" style="margin-top:6px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <p><strong>Before your next visit.</strong> Three questions worth asking, drafted from this record &mdash; including why creatinine rose since April.</p>
+            </div>
+            <button class="btn ghost sm" style="margin-top:9px">Export record as PDF for the vet</button>
+          </div>
+        </section>
+
+        <!-- ---------- 6. EMERGENCY ---------- -->
+        <section class="screen" id="sc-sos" aria-label="Emergency mode" hidden>
+          <div class="emhead">
+            <div class="row" style="gap:9px;margin-bottom:9px">
+              <button class="back" data-go="home" aria-label="Back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+              </button>
+              <span style="font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;opacity:.85">Emergency mode</span>
+            </div>
+            <h2>Injured dog &middot; hit by vehicle</h2>
+            <p>Described in one line. We have picked the urgency band and who can actually take this case now.</p>
+          </div>
+          <div class="sc-pad">
+            <div class="card" style="margin-top:12px;border-color:var(--alert);display:grid;gap:7px">
+              <span class="badge bad" style="justify-self:start">Go now &mdash; do not wait</span>
+              <span style="font-size:12px;line-height:1.5;color:var(--ink-2)">Suspected fracture with bleeding needs a clinic with X-ray and surgery. Keep the animal still, cover with cloth, do not give food, water or any medicine.</span>
+              <span style="font-size:11px;color:var(--muted)">Guidance only, not a diagnosis. A vet must examine the animal.</span>
+            </div>
+
+            <div class="sechead"><h3>Your location for the rescue team</h3></div>
+            <div class="loccard">
+              <span class="pc">7J4VXH8W+9V</span>
+              <span style="font-size:11.5px;color:var(--muted);line-height:1.45">Near bus stop, 80 Feet Road, Koramangala. A Plus Code works where a street address does not &mdash; the driver gets an exact pin.</span>
+            </div>
+
+            <div class="sechead"><h3>Available right now</h3></div>
+            <div class="plist">
+              <div class="pcard" style="cursor:default">
+                <span class="between">
+                  <span class="pn">Jeevan Pet Ambulance</span>
+                  <span class="badge ok">7 min away</span>
+                </span>
+                <span class="pt">Stretcher, oxygen &middot; &#8377;600 pickup within 5 km</span>
+                <button class="btn danger sm" style="margin-top:3px">Call driver</button>
+              </div>
+              <div class="pcard" style="cursor:default">
+                <span class="between">
+                  <span class="pn">Indiranagar Animal Hospital</span>
+                  <span class="badge ok">Open 24&times;7</span>
+                </span>
+                <span class="pt">X-ray and surgery on site &middot; 2.4 km &middot; accepts strays</span>
+                <button class="btn ghost sm" style="margin-top:3px">Call clinic</button>
+              </div>
+            </div>
+
+            <div class="aistrip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <p><strong>Case file ready.</strong> Photo, location, urgency and treatment so far, written up as a WhatsApp message and an Instagram caption &mdash; so rescuers stop retyping the same details.</p>
+            </div>
+            <button class="btn ghost sm" style="margin-top:9px">Share case file</button>
+          </div>
+        </section>
+      </div>
+
+      <p style="font-size:11.5px;color:var(--muted);margin:0;text-align:center;max-width:376px">
+        Screen <span class="mono" id="posn">1</span> of <span class="mono">6</span> &middot; every button in the phone is live
+      </p>
+    </div>
+
+    <!-- ============ ANNOTATIONS ============ -->
+    <aside aria-label="Screen notes">
+      <p class="eyebrow">What is happening here</p>
+      <div class="notes">
+        <article class="note" data-note="home" data-on="true">
+          <div>
+            <span class="idx">Screen 1</span>
+            <h3>Search is the hook, the record is the product</h3>
+          </div>
+          <p>A pet parent opens the app to find a vet. What brings them back is the line at the top: <em>Riya&rsquo;s rabies booster is due in 6 days</em> &mdash; a date nobody typed in. It was read off a prescription photo.</p>
+          <div class="nblock">
+            <span class="nh">Design decisions</span>
+            <ul>
+              <li><strong>Species first, not last.</strong> A rabbit vet is not a dog vet. Most directories treat this as a filter; here it shapes the whole result set.</li>
+              <li><strong>Emergency has its own door</strong> because the person using it is panicking on a footpath at 11 PM.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="note" data-note="results">
+          <div>
+            <span class="idx">Screen 2</span>
+            <h3>Every listing carries a freshness score</h3>
+          </div>
+          <p>Indian directories die of stale data &mdash; the clinic shut two years ago, the number is dead. So freshness is not hidden metadata, it is shown on every row.</p>
+          <div class="nblock ai">
+            <span class="nh">AI at work <span class="mine">My own concept</span></span>
+            <ul>
+              <li>A <strong>verification agent</strong> messages each provider on WhatsApp on a rolling cycle: still open? still these hours? still taking cats?</li>
+              <li>It reads the free-text reply, updates the listing, and decays the score when nobody answers &mdash; the third result shows exactly that state.</li>
+              <li>This replaces the ops team every directory otherwise needs to hire.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="note" data-note="profile">
+          <div>
+            <span class="idx">Screen 3</span>
+            <h3>Call now, because clinics have no software</h3>
+          </div>
+          <p>No online booking in v1. Almost no small Indian practice runs a calendar, so a &ldquo;book&rdquo; button would promise something the clinic cannot keep. A phone call is the honest primitive.</p>
+          <div class="nblock">
+            <span class="nh">Quietly useful</span>
+            <ul>
+              <li><strong>Plus Code</strong> alongside the address &mdash; Indian addresses are landmark-based and unusable for a driver.</li>
+              <li><strong>Why people came here</strong>, grouped from anonymised visit records. Real signal, and it needs no reviews &mdash; which would be empty at launch anyway.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="note" data-note="scan">
+          <div>
+            <span class="idx">Screen 4</span>
+            <h3>The screen the whole product rests on</h3>
+          </div>
+          <p>A handwritten Indian vet prescription: brand names, mg/kg dosing, abbreviations, no structure. Turning that photo into data is the hard, valuable part &mdash; and the only place a moat can form.</p>
+          <div class="nblock ai">
+            <span class="nh">AI at work</span>
+            <ul>
+              <li><strong>Extract</strong> clinic, diagnosis, weight, each drug with dose, route, frequency and duration, then the dates that follow from them.</li>
+              <li><strong>Show confidence, never hide it.</strong> Low-confidence fields are surfaced for confirmation instead of being silently guessed.</li>
+              <li><strong>Cross-check the arithmetic</strong> <span class="mine">My own concept</span> &mdash; recompute mg/kg against the read weight and flag the mismatch. An unclear digit is a dosing error, not a typo.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="note" data-note="timeline">
+          <div>
+            <span class="idx">Screen 5</span>
+            <h3>One animal, one history, portable</h3>
+          </div>
+          <p>Fourteen entries across three clinics, including an NGO spay from before this was anyone&rsquo;s pet. Export as PDF and the next vet starts informed instead of starting over.</p>
+          <div class="nblock ai">
+            <span class="nh">AI at work <span class="mine">My own concept</span></span>
+            <ul>
+              <li><strong>Species-aware reference ranges.</strong> Creatinine of 1.4 is normal in a dog and alarming in a person. Tools built on human ranges get this wrong; a pet product cannot.</li>
+              <li><strong>Trend, not snapshot</strong> &mdash; the previous value sits on the same scale, so a rise is visible without reading two PDFs.</li>
+              <li><strong>Questions to ask your vet</strong>, drafted from the record. It makes the owner a better historian instead of pretending to diagnose.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="note" data-note="sos">
+          <div>
+            <span class="idx">Branch</span>
+            <h3>The rescuer flow, which is a different product</h3>
+          </div>
+          <p>A rescuer does not browse. They need urgency, a location a driver can find, and someone who will actually take a stray. Low frequency, but it is where trust and word of mouth are earned.</p>
+          <div class="nblock ai">
+            <span class="nh">AI at work</span>
+            <ul>
+              <li><strong>Triage into bands</strong> &mdash; go now / within 24 hours / home care &mdash; and route to the right kind of provider. Never a diagnosis, never a medicine.</li>
+              <li><strong>Case file generation</strong> <span class="mine">My own concept</span>: photo plus location becomes a WhatsApp message and an Instagram caption. Rescuers currently retype this a dozen times per animal.</li>
+            </ul>
+          </div>
+          <p class="hint">Safety line held throughout: AI organises information and sorts urgency. It never names a drug, a dose, or a diagnosis.</p>
+        </article>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<p class="disclaim">
+  Prototype for a screening assignment. All clinics, doctors, NGOs, ambulances, records and figures are invented sample data for a Bengaluru pilot and do not represent any real organisation or animal. Drug and brand names are used only to show the shape of a real Indian veterinary prescription.
+</p>
+
+<script>
+(function(){
+  var order = ["home","results","profile","scan","timeline","sos"];
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#rail .step"));
+  var notes = Array.prototype.slice.call(document.querySelectorAll(".note"));
+  var posn  = document.getElementById("posn");
+
+  function show(key){
+    if(order.indexOf(key) === -1) return;
+    order.forEach(function(k){
+      var el = document.getElementById("sc-" + k);
+      if(el){ el.hidden = (k !== key); if(k === key) el.scrollTop = 0; }
+    });
+    steps.forEach(function(s){ s.setAttribute("aria-current", String(s.dataset.go === key)); });
+    notes.forEach(function(n){ n.setAttribute("data-on", String(n.dataset.note === key)); });
+    posn.textContent = order.indexOf(key) + 1;
+  }
+
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-go]");
+    if(!t) return;
+    e.preventDefault();
+    show(t.dataset.go);
+  });
+
+  document.addEventListener("click", function(e){
+    var c = e.target.closest(".chip");
+    if(!c || c.classList.contains("soft")) return;
+    var group = c.parentElement;
+    if(group.firstElementChild.textContent.trim() === "Dog"){
+      Array.prototype.forEach.call(group.children, function(x){ x.setAttribute("aria-pressed","false"); });
+      c.setAttribute("aria-pressed","true");
+    } else {
+      c.setAttribute("aria-pressed", c.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
