@@ -205,6 +205,14 @@ h1{
 .screen:hover::-webkit-scrollbar-thumb{background:var(--muted);background-clip:padding-box}
 .screen[hidden]{display:none!important}
 .sc-pad{padding:6px 18px 22px}
+@keyframes scIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes scInBack{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: no-preference){
+  .sc-pad.anim-fwd{animation:scIn .26s cubic-bezier(.22,.7,.3,1) both}
+  .sc-pad.anim-back{animation:scInBack .26s cubic-bezier(.22,.7,.3,1) both}
+  .btn,.pcard,.cat,.sos,.chip,.step{transition:transform .09s ease}
+  .btn:active,.pcard:active,.cat:active,.sos:active,.chip:active,.step:active{transform:scale(.982)}
+}
 
 .appbar{
   display:flex;align-items:center;gap:10px;
@@ -1011,7 +1019,7 @@ h1{
       </div>
 
       <p style="font-size:11.5px;color:var(--muted);margin:0;text-align:center;max-width:376px">
-        Screen <span class="mono" id="posn">1</span> of <span class="mono">6</span> &middot; every button is live &middot; scroll inside the phone
+        Screen <span class="mono" id="posn">1</span> of <span class="mono">6</span> &middot; every button is live &middot; scroll inside the phone, arrow keys to move
       </p>
     </div>
 
@@ -1028,15 +1036,37 @@ h1{
   var steps = Array.prototype.slice.call(document.querySelectorAll("#rail .step"));
   var posn  = document.getElementById("posn");
 
+  var current = "home";
+
   function show(key){
-    if(order.indexOf(key) === -1) return;
+    var to = order.indexOf(key);
+    if(to === -1) return;
+    var dir = to >= order.indexOf(current) ? "fwd" : "back";
+    current = key;
     order.forEach(function(k){
       var el = document.getElementById("sc-" + k);
-      if(el){ el.hidden = (k !== key); if(k === key) el.scrollTop = 0; }
+      if(!el) return;
+      el.hidden = (k !== key);
+      if(k !== key) return;
+      el.scrollTop = 0;
+      var pad = el.querySelector(".sc-pad");
+      if(pad){
+        pad.classList.remove("anim-fwd", "anim-back");
+        void pad.offsetWidth;                       // force the animation to restart
+        pad.classList.add("anim-" + dir);
+      }
     });
     steps.forEach(function(s){ s.setAttribute("aria-current", String(s.dataset.go === key)); });
-    posn.textContent = order.indexOf(key) + 1;
+    posn.textContent = to + 1;
   }
+
+  // walk the flow with the arrow keys, the way you would page through a deck
+  document.addEventListener("keydown", function(e){
+    if(e.metaKey || e.ctrlKey || e.altKey) return;
+    var i = order.indexOf(current);
+    if(e.key === "ArrowRight" && i < order.length - 1){ e.preventDefault(); show(order[i + 1]); }
+    if(e.key === "ArrowLeft"  && i > 0){ e.preventDefault(); show(order[i - 1]); }
+  });
 
   document.addEventListener("click", function(e){
     var t = e.target.closest("[data-go]");
