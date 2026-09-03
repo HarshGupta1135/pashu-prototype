@@ -124,7 +124,7 @@ h1{
 }
 .pill strong{color:var(--ink);font-weight:600}
 
-.grid{display:grid;grid-template-columns:246px minmax(0,1fr);gap:38px;align-items:start;max-width:760px;margin:0 auto}
+.grid{display:grid;grid-template-columns:246px minmax(0,1fr) 322px;gap:32px;align-items:start}
 @media (max-width:1080px){
   .grid{grid-template-columns:minmax(0,1fr);gap:26px}
   .stage{order:-1}
@@ -466,6 +466,34 @@ h1{
 }
 .loccard .pc{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.02em}
 
+/* ---------- plain-language panel ---------- */
+.notes{display:grid;gap:0}
+.note{display:none;gap:13px}
+.note[data-on="true"]{display:grid}
+.note .idx{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.note h3{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:19px;font-weight:700;
+  letter-spacing:-.015em;margin:3px 0 0;line-height:1.18;text-wrap:balance;
+}
+.note p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.6}
+.plain{
+  list-style:none;margin:0;padding:13px 0 0;border-top:1px solid var(--line);
+  display:grid;gap:11px;
+}
+.plain li{display:grid;gap:3px}
+.plain .pk{
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+  color:var(--brand-ink);
+}
+.plain .pv{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.plain .pv em{font-style:normal;font-weight:600;color:var(--ink)}
+.aside-foot{
+  font-size:11.5px;color:var(--muted);line-height:1.55;
+  border:1px dashed var(--line);border-radius:10px;padding:10px 11px;
+}
 .disclaim{
   max-width:1280px;margin:34px auto 0;padding:0 24px;
   font-size:11.5px;color:var(--muted);line-height:1.55;
@@ -1023,6 +1051,87 @@ h1{
       </p>
     </div>
 
+
+    <!-- ============ PLAIN-LANGUAGE PANEL ============ -->
+    <aside aria-label="What this screen does">
+      <p class="eyebrow">In simple words</p>
+      <div class="notes">
+
+        <article class="note" data-note="home" data-on="true">
+          <div>
+            <span class="idx">Screen 1</span>
+            <h3>You open the app, and it already knows two things</h3>
+          </div>
+          <p>Where you are, and which animal you are asking about. A vet for a rabbit is not the same as a vet for a dog, so it asks that first instead of showing you everything at once.</p>
+          <ul class="plain">
+            <li><span class="pk">What you do</span><span class="pv">Pick your animal, then search or tap a category.</span></li>
+            <li><span class="pk">What you get without asking</span><span class="pv">A reminder you never set. It knows Riya&rsquo;s rabies shot is due in six days, because it read that off an old prescription you photographed.</span></li>
+          </ul>
+        </article>
+
+        <article class="note" data-note="results">
+          <div>
+            <span class="idx">Screen 2</span>
+            <h3>Who is nearby, and who is actually open</h3>
+          </div>
+          <p>Each clinic shows the things you would otherwise have to ring up and ask &mdash; how far, how much, which animals they treat, whether they have an ambulance.</p>
+          <ul class="plain">
+            <li><span class="pk">That small bar under each name</span><span class="pv">It shows how recently we checked that the clinic is still open with these timings. <em>Full bar:</em> confirmed a couple of days ago. <em>Half bar:</em> nobody has replied yet, so phone before you go.</span></li>
+            <li><span class="pk">Why it is there</span><span class="pv">Most listings online are years out of date and never say so. This one tells you how much to trust it.</span></li>
+          </ul>
+        </article>
+
+        <article class="note" data-note="profile">
+          <div>
+            <span class="idx">Screen 3</span>
+            <h3>Everything you would have phoned to ask</h3>
+          </div>
+          <p>Today&rsquo;s timings, Sunday timings, the consultation fee, which animals they see, the languages they speak. Then one button to call.</p>
+          <ul class="plain">
+            <li><span class="pk">The code under the address</span><span class="pv">A Plus Code. Indian addresses are landmarks rather than streets, so this gives an auto or ambulance driver an exact spot on the map.</span></li>
+            <li><span class="pk">Why there is no booking button</span><span class="pv">On purpose. Most small clinics keep no online calendar, so a booking button would promise something they cannot deliver.</span></li>
+          </ul>
+        </article>
+
+        <article class="note" data-note="scan">
+          <div>
+            <span class="idx">Screen 4</span>
+            <h3>Photograph the prescription, it types it out for you</h3>
+          </div>
+          <p>The vet hands you a slip written by hand. You take one photo. The app reads the medicines, the doses and the diagnosis, and works out when the course finishes.</p>
+          <ul class="plain">
+            <li><span class="pk">Where it is unsure, it asks</span><span class="pv">The weight could be 18.4 kg or 13.4 kg, so it shows you both and waits. Nothing is saved to your pet&rsquo;s record until you confirm.</span></li>
+            <li><span class="pk">It checks the arithmetic too</span><span class="pv">Doses are calculated from your pet&rsquo;s weight. If the two do not agree, it says so &mdash; a misread digit is a wrong dose, not a typo.</span></li>
+          </ul>
+        </article>
+
+        <article class="note" data-note="timeline">
+          <div>
+            <span class="idx">Screen 5</span>
+            <h3>Your pet&rsquo;s whole history, in one place</h3>
+          </div>
+          <p>Every visit, vaccine, blood test and surgery in order, across every clinic you have ever been to. No more digging through a folder of old papers before an appointment.</p>
+          <ul class="plain">
+            <li><span class="pk">The blood test bar</span><span class="pv">It shows whether a value is normal <em>for a dog</em> &mdash; not for a person. The very same number can be fine in one and worrying in the other.</span></li>
+            <li><span class="pk">Seeing a new vet</span><span class="pv">Send the whole history as a PDF, so they begin already knowing your pet.</span></li>
+          </ul>
+        </article>
+
+        <article class="note" data-note="sos">
+          <div>
+            <span class="idx">Emergency</span>
+            <h3>For when you find an animal hurt on the road</h3>
+          </div>
+          <p>You describe what happened in one line. It tells you how urgent this is, what to do while you wait, and who can actually come right now.</p>
+          <ul class="plain">
+            <li><span class="pk">Your location, ready to send</span><span class="pv">A short code you can forward to a driver, instead of trying to explain which turning you are standing near.</span></li>
+            <li><span class="pk">One tap to share the case</span><span class="pv">It writes the WhatsApp message and the Instagram caption for you. Rescuers type the same details out a dozen times otherwise.</span></li>
+          </ul>
+          <p class="aside-foot">The app never says what is wrong with an animal and never suggests a medicine. It sorts urgency and organises information &mdash; a vet does the rest.</p>
+        </article>
+
+      </div>
+    </aside>
   </div>
 </div>
 
@@ -1034,6 +1143,7 @@ h1{
 (function(){
   var order = ["home","results","profile","scan","timeline","sos"];
   var steps = Array.prototype.slice.call(document.querySelectorAll("#rail .step"));
+  var notes = Array.prototype.slice.call(document.querySelectorAll(".note"));
   var posn  = document.getElementById("posn");
 
   var current = "home";
@@ -1057,6 +1167,7 @@ h1{
       }
     });
     steps.forEach(function(s){ s.setAttribute("aria-current", String(s.dataset.go === key)); });
+    notes.forEach(function(n){ n.setAttribute("data-on", String(n.dataset.note === key)); });
     posn.textContent = to + 1;
   }
 
