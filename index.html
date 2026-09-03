@@ -124,7 +124,7 @@ h1{
 }
 .pill strong{color:var(--ink);font-weight:600}
 
-.grid{display:grid;grid-template-columns:246px minmax(0,1fr) 322px;gap:32px;align-items:start}
+.grid{display:grid;grid-template-columns:246px minmax(0,1fr);gap:38px;align-items:start;max-width:760px;margin:0 auto}
 @media (max-width:1080px){
   .grid{grid-template-columns:minmax(0,1fr);gap:26px}
   .stage{order:-1}
@@ -458,37 +458,6 @@ h1{
 }
 .loccard .pc{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;letter-spacing:.02em}
 
-/* ---------- annotation panel ---------- */
-.notes{display:grid;gap:0}
-.note{display:none;gap:14px}
-.note[data-on="true"]{display:grid}
-.note h3{
-  font-family:"Bricolage Grotesque",sans-serif;font-size:19px;font-weight:700;
-  letter-spacing:-.015em;margin:0;line-height:1.15;text-wrap:balance;
-}
-.note .idx{
-  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
-  letter-spacing:.06em;text-transform:uppercase;
-}
-.note p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
-.nblock{display:grid;gap:6px;padding-top:13px;border-top:1px solid var(--line)}
-.nblock .nh{
-  font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;color:var(--muted);
-}
-.nblock ul{margin:0;padding-left:16px;display:grid;gap:5px}
-.nblock li{font-size:12.5px;color:var(--ink-2);line-height:1.5}
-.nblock li strong{color:var(--ink);font-weight:600}
-.nblock.ai{border-top-color:var(--brand);}
-.nblock.ai .nh{color:var(--brand-ink)}
-.mine{
-  display:inline-flex;align-items:center;gap:5px;background:var(--marigold-soft);
-  color:var(--marigold);font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;
-  letter-spacing:.04em;text-transform:uppercase;
-}
-.hint{
-  font-size:11.5px;color:var(--muted);line-height:1.5;
-  border:1px dashed var(--line);border-radius:10px;padding:10px 11px;
-}
 .disclaim{
   max-width:1280px;margin:34px auto 0;padding:0 24px;
   font-size:11.5px;color:var(--muted);line-height:1.55;
@@ -1046,105 +1015,6 @@ h1{
       </p>
     </div>
 
-    <!-- ============ ANNOTATIONS ============ -->
-    <aside aria-label="Screen notes">
-      <p class="eyebrow">What is happening here</p>
-      <div class="notes">
-        <article class="note" data-note="home" data-on="true">
-          <div>
-            <span class="idx">Screen 1</span>
-            <h3>Search is the hook, the record is the product</h3>
-          </div>
-          <p>A pet parent opens the app to find a vet. What brings them back is the line at the top: <em>Riya&rsquo;s rabies booster is due in 6 days</em> &mdash; a date nobody typed in. It was read off a prescription photo.</p>
-          <div class="nblock">
-            <span class="nh">Design decisions</span>
-            <ul>
-              <li><strong>Species first, not last.</strong> A rabbit vet is not a dog vet. Most directories treat this as a filter; here it shapes the whole result set.</li>
-              <li><strong>Emergency has its own door</strong> because the person using it is panicking on a footpath at 11 PM.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="note" data-note="results">
-          <div>
-            <span class="idx">Screen 2</span>
-            <h3>Every listing carries a freshness score</h3>
-          </div>
-          <p>Indian directories die of stale data &mdash; the clinic shut two years ago, the number is dead. So freshness is not hidden metadata, it is shown on every row.</p>
-          <div class="nblock ai">
-            <span class="nh">AI at work <span class="mine">My own concept</span></span>
-            <ul>
-              <li>A <strong>verification agent</strong> messages each provider on WhatsApp on a rolling cycle: still open? still these hours? still taking cats?</li>
-              <li>It reads the free-text reply, updates the listing, and decays the score when nobody answers &mdash; the third result shows exactly that state.</li>
-              <li>This replaces the ops team every directory otherwise needs to hire.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="note" data-note="profile">
-          <div>
-            <span class="idx">Screen 3</span>
-            <h3>Call now, because clinics have no software</h3>
-          </div>
-          <p>No online booking in v1. Almost no small Indian practice runs a calendar, so a &ldquo;book&rdquo; button would promise something the clinic cannot keep. A phone call is the honest primitive.</p>
-          <div class="nblock">
-            <span class="nh">Quietly useful</span>
-            <ul>
-              <li><strong>Plus Code</strong> alongside the address &mdash; Indian addresses are landmark-based and unusable for a driver.</li>
-              <li><strong>Why people came here</strong>, grouped from anonymised visit records. Real signal, and it needs no reviews &mdash; which would be empty at launch anyway.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="note" data-note="scan">
-          <div>
-            <span class="idx">Screen 4</span>
-            <h3>The screen the whole product rests on</h3>
-          </div>
-          <p>A handwritten Indian vet prescription: brand names, mg/kg dosing, abbreviations, no structure. Turning that photo into data is the hard, valuable part &mdash; and the only place a moat can form.</p>
-          <div class="nblock ai">
-            <span class="nh">AI at work</span>
-            <ul>
-              <li><strong>Extract</strong> clinic, diagnosis, weight, each drug with dose, route, frequency and duration, then the dates that follow from them.</li>
-              <li><strong>Show confidence, never hide it.</strong> Low-confidence fields are surfaced for confirmation instead of being silently guessed.</li>
-              <li><strong>Cross-check the arithmetic</strong> <span class="mine">My own concept</span> &mdash; recompute mg/kg against the read weight and flag the mismatch. An unclear digit is a dosing error, not a typo.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="note" data-note="timeline">
-          <div>
-            <span class="idx">Screen 5</span>
-            <h3>One animal, one history, portable</h3>
-          </div>
-          <p>Fourteen entries across three clinics, including an NGO spay from before this was anyone&rsquo;s pet. Export as PDF and the next vet starts informed instead of starting over.</p>
-          <div class="nblock ai">
-            <span class="nh">AI at work <span class="mine">My own concept</span></span>
-            <ul>
-              <li><strong>Species-aware reference ranges.</strong> Creatinine of 1.4 is normal in a dog and alarming in a person. Tools built on human ranges get this wrong; a pet product cannot.</li>
-              <li><strong>Trend, not snapshot</strong> &mdash; the previous value sits on the same scale, so a rise is visible without reading two PDFs.</li>
-              <li><strong>Questions to ask your vet</strong>, drafted from the record. It makes the owner a better historian instead of pretending to diagnose.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="note" data-note="sos">
-          <div>
-            <span class="idx">Branch</span>
-            <h3>The rescuer flow, which is a different product</h3>
-          </div>
-          <p>A rescuer does not browse. They need urgency, a location a driver can find, and someone who will actually take a stray. Low frequency, but it is where trust and word of mouth are earned.</p>
-          <div class="nblock ai">
-            <span class="nh">AI at work</span>
-            <ul>
-              <li><strong>Triage into bands</strong> &mdash; go now / within 24 hours / home care &mdash; and route to the right kind of provider. Never a diagnosis, never a medicine.</li>
-              <li><strong>Case file generation</strong> <span class="mine">My own concept</span>: photo plus location becomes a WhatsApp message and an Instagram caption. Rescuers currently retype this a dozen times per animal.</li>
-            </ul>
-          </div>
-          <p class="hint">Safety line held throughout: AI organises information and sorts urgency. It never names a drug, a dose, or a diagnosis.</p>
-        </article>
-      </div>
-    </aside>
   </div>
 </div>
 
@@ -1156,7 +1026,6 @@ h1{
 (function(){
   var order = ["home","results","profile","scan","timeline","sos"];
   var steps = Array.prototype.slice.call(document.querySelectorAll("#rail .step"));
-  var notes = Array.prototype.slice.call(document.querySelectorAll(".note"));
   var posn  = document.getElementById("posn");
 
   function show(key){
@@ -1166,7 +1035,6 @@ h1{
       if(el){ el.hidden = (k !== key); if(k === key) el.scrollTop = 0; }
     });
     steps.forEach(function(s){ s.setAttribute("aria-current", String(s.dataset.go === key)); });
-    notes.forEach(function(n){ n.setAttribute("data-on", String(n.dataset.note === key)); });
     posn.textContent = order.indexOf(key) + 1;
   }
 
