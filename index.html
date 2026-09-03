@@ -180,13 +180,29 @@ h1{
   overflow:hidden;
   display:flex;flex-direction:column;
   height:748px;
+  height:min(748px, calc(100dvh - 132px));
+  max-height:748px;
 }
 .statusbar{
   display:flex;justify-content:space-between;align-items:center;
   padding:11px 22px 5px;font-size:11px;color:var(--muted);
   font-family:"IBM Plex Mono",monospace;flex:none;
 }
-.screen{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.screen{
+  flex:1;min-height:0;
+  overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
+}
+.screen::-webkit-scrollbar{width:9px}
+.screen::-webkit-scrollbar-track{background:transparent}
+.screen::-webkit-scrollbar-thumb{
+  background:var(--line);border-radius:5px;
+  border:2.5px solid var(--card);background-clip:padding-box;
+}
+.screen:hover::-webkit-scrollbar-thumb{background:var(--muted);background-clip:padding-box}
 .screen[hidden]{display:none!important}
 .sc-pad{padding:6px 18px 22px}
 
@@ -1026,7 +1042,7 @@ h1{
       </div>
 
       <p style="font-size:11.5px;color:var(--muted);margin:0;text-align:center;max-width:376px">
-        Screen <span class="mono" id="posn">1</span> of <span class="mono">6</span> &middot; every button in the phone is live
+        Screen <span class="mono" id="posn">1</span> of <span class="mono">6</span> &middot; every button is live &middot; scroll inside the phone
       </p>
     </div>
 
